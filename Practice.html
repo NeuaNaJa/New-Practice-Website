@@ -2,7 +2,7 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8" />
-  <title>เว็บแรกของฉัน</title>
+  <title>เว็บทดสอบของฉัน</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -15,10 +15,22 @@
     p {
       color: #34495e;
     }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+    }
   </style>
 </head>
 <body>
-  <h1>ยินดีต้อนรับสู่เว็บแรกของฉัน!</h1>
-  <p>นี่คือเว็บตัวอย่างที่เราสร้างด้วย HTML และ CSS</p>
+  <h1 id="mainTitle">ยินดีต้อนรับสู่เว็บทดสอบของฉัน!</h1>
+  <p>นี่คือหน้า practice.html ที่มีการโต้ตอบได้</p>
+  <button onclick="changeTitle()">คลิกเพื่อเปลี่ยนข้อความ</button>
+
+  <script>
+    function changeTitle() {
+      document.getElementById("mainTitle").innerText = "คุณคลิกแล้ว!";
+    }
+  </script>
 </body>
 </html>
