@@ -6,25 +6,33 @@
   <title>เว็บไซต์ทดลองเขียนโค้ด</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
-    body { background: #f4f4f4; color: #333; line-height: 1.6; padding-top: 60px; }
+    body { background: #e6f0ff; color: #002244; line-height: 1.6; padding-top: 60px; }
     /* Header */
-    header { position: fixed; top: 0; left: 0; width: 100%; background: #333; color: #fff; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; z-index: 1000; transition: top 0.3s; }
+    header { position: fixed; top: 0; left: 0; width: 100%; background: #0059b3; color: #fff; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; z-index: 1000; transition: top 0.3s; }
     .left-menu a { color: #fff; text-decoration: none; margin-right: 15px; }
     .menu-toggle { cursor: pointer; font-size: 24px; }
-    .dropdown-menu { display: none; position: absolute; top: 60px; right: 20px; background: #444; flex-direction: column; padding: 10px; border-radius: 5px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
+    .dropdown-menu { display: none; position: absolute; top: 60px; right: 20px; background: #004080; flex-direction: column; padding: 10px; border-radius: 5px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
     .dropdown-menu a { color: #fff; text-decoration: none; padding: 8px 0; }
     /* Hero Section */
-    .hero { height: 50vh; display: flex; justify-content: center; align-items: center; background: linear-gradient(135deg, #6b73ff, #000dff); color: #fff; text-align: center; animation: fadeIn 1s ease; }
+    .hero { height: 50vh; display: flex; justify-content: center; align-items: center; background: linear-gradient(135deg, #3399ff, #0059b3); color: #fff; text-align: center; animation: fadeIn 1s ease; }
     .hero h1 { font-size: 2.5rem; animation: slideDown 1s ease; }
     /* Language Cards Section */
     .language-section { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
+    .language-section h2 { text-align: center; color: #003366; margin-bottom: 20px; }
     .lang-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
     .lang-card { background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); cursor: pointer; transition: transform 0.2s; }
     .lang-card:hover { transform: translateY(-5px); }
-    .lang-title { font-size: 1.2rem; color: #000dff; margin-bottom: 10px; }
-    .lang-detail { display: none; margin-top: 10px; color: #555; font-size: 0.95rem; }
+    .lang-title { font-size: 1.2rem; color: #0059b3; margin-bottom: 10px; }
+    .lang-summary { color: #004080; font-size: 0.95rem; margin-bottom: 10px; }
+    .lang-detail { display: none; margin-top: 10px; color: #333; font-size: 0.9rem; line-height: 1.4; }
+    .lang-detail ul { margin-left: 20px; list-style-type: disc; }
+    /* Contact Section */
+    #contact { max-width: 600px; margin: 40px auto; padding: 20px; background: #fff; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    #contact h2 { text-align: center; color: #003366; margin-bottom: 10px; }
+    #contactForm input, #contactForm textarea, #contactForm button { display: block; width: 100%; margin-bottom: 10px; padding: 10px; font-size: 1rem; }
+    #contactForm button { background: #0059b3; color: #fff; border: none; border-radius: 5px; cursor: pointer; }
     /* Footer */
-    footer { background: #333; color: #fff; text-align: center; padding: 20px; margin-top: 40px; animation: fadeIn 1s ease; }
+    footer { background: #0059b3; color: #fff; text-align: center; padding: 20px; margin-top: 40px; animation: fadeIn 1s ease; }
     /* Animations */
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     @keyframes slideDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
@@ -34,7 +42,7 @@
   <header id="mainHeader">
     <div class="left-menu">
       <a href="#">สมัครสมาชิก</a>
-      <a href="#">ลงชื่อเข้าใช้</a>
+      <a href="#contact">ติดต่อ</a>
     </div>
     <div class="menu-toggle" onclick="toggleMenu()">&#9776;</div>
     <div class="dropdown-menu" id="dropdownMenu">
@@ -49,46 +57,99 @@
   </section>
 
   <section class="language-section">
-    <h2 style="text-align:center; margin-bottom:20px;">ความรู้ภาษาโปรแกรม</h2>
+    <h2>ความรู้ภาษาโปรแกรม</h2>
     <div class="lang-grid" id="langGrid">
-      <!-- Card JavaScript -->
+      <!-- Cards: name, summary, detail -->
       <div class="lang-card" onclick="toggleDetail(0)">
         <div class="lang-title">JavaScript</div>
+        <div class="lang-summary">ภาษา script บนฝั่ง client ใช้จัดการ DOM และเพิ่มความโต้ตอบ</div>
         <div class="lang-detail" id="detail-0">
-          ภาษา script บนฝั่ง client ทำให้เว็บโต้ตอบได้ เช่น การจัด DOM, event handling
+          <ul>
+            <li>กำเนิดจาก Netscape ในปี 1995</li>
+            <li>ใช้ในการจัดการองค์ประกอบหน้าเว็บ (DOM manipulation)</li>
+            <li>รองรับ event handling และ AJAX</li>
+            <li>สามารถใช้ฝั่ง server ด้วย Node.js</li>
+          </ul>
         </div>
       </div>
-      <!-- Card Python -->
       <div class="lang-card" onclick="toggleDetail(1)">
         <div class="lang-title">Python</div>
+        <div class="lang-summary">ภาษาโปรแกรมเชิงวัตถุ ใช้ง่าย นิยมด้าน Data Science และ Web Backend</div>
         <div class="lang-detail" id="detail-1">
-          ภาษาโปรแกรมเชิงวัตถุ ใช้งานง่าย นิยมทำ data science, web backend, scripting
+          <ul>
+            <li>ออกแบบโดย Guido van Rossum ในปี 1991</li>
+            <li>มีไลบรารีครอบคลุม เช่น NumPy, Pandas, Flask, Django</li>
+            <li>ใช้เขียนสคริปต์ และระบบอัตโนมัติ</li>
+          </ul>
         </div>
       </div>
-      <!-- Card HTML/CSS -->
       <div class="lang-card" onclick="toggleDetail(2)">
-        <div class="lang-title">HTML & CSS</div>
+        <div class="lang-title">Java</div>
+        <div class="lang-summary">ภาษาแบบ compiled รันบน JVM เขียนครั้งเดียวรันได้ทุกที่</div>
         <div class="lang-detail" id="detail-2">
-          HTML สร้างโครงสร้างเว็บ ส่วน CSS จัดสไตล์ (สี, layout, typography)
+          <ul>
+            <li>พัฒนาโดย Sun Microsystems ในปี 1995</li>
+            <li>ใช้ใน Android, Enterprise Application, Big Data</li>
+            <li>มี garbage collection และระบบแพ็กเกจ</li>
+          </ul>
+        </div>
+      </div>
+      <div class="lang-card" onclick="toggleDetail(3)">
+        <div class="lang-title">C++</div>
+        <div class="lang-summary">ภาษาที่ขยายจาก C รองรับ OOP ใช้ในระบบและเกม</div>
+        <div class="lang-detail" id="detail-3">
+          <ul>
+            <li>ออกแบบโดย Bjarne Stroustrup ในปี 1985</li>
+            <li>ชั้นต่ำ ใกล้ฮาร์ดแวร์, ประสิทธิภาพสูง</li>
+            <li>ใช้พัฒนาเกม, ซอฟต์แวร์ระบบ, embedded</li>
+          </ul>
+        </div>
+      </div>
+      <div class="lang-card" onclick="toggleDetail(4)">
+        <div class="lang-title">Ruby</div>
+        <div class="lang-summary">ภาษา dynamic, ง่ายต่อการอ่าน เข้ากับ Rails ได้ดี</div>
+        <div class="lang-detail" id="detail-4">
+          <ul>
+            <li>สร้างโดย Yukihiro Matsumoto ในปี 1995</li>
+            <li>ใช้ในเว็บแอปด้วย Ruby on Rails</li>
+            <li>มี syntax ที่เป็นมิตรกับผู้ใช้</li>
+          </ul>
+        </div>
+      </div>
+      <div class="lang-card" onclick="toggleDetail(5)">
+        <div class="lang-title">PHP</div>
+        <div class="lang-summary">ภาษา script บน server นิยมทำเว็บไดนามิก</div>
+        <div class="lang-detail" id="detail-5">
+          <ul>
+            <li>สร้างโดย Rasmus Lerdorf ในปี 1994</li>
+            <li>ฝังใน HTML ทำงานฝั่ง server</li>
+            <li>ใช้กับ CMS เช่น WordPress, Drupal, Joomla</li>
+          </ul>
         </div>
       </div>
     </div>
   </section>
 
   <section id="contact">
-    <h2 style="text-align:center;">ติดต่อเรา</h2>
-    <p style="text-align:center;">สำหรับแจ้งปัญหาหรือเสนอแนะ โปรดติดต่อ <a href="mailto:ainthat@example.com" style="color:#000dff;">ainthat@example.com</a></p>
+    <h2>ติดต่อเรา</h2>
+    <form id="contactForm">
+      <input type="text" id="name" placeholder="ชื่อของคุณ" required />
+      <input type="email" id="email" placeholder="อีเมลของคุณ" required />
+      <textarea id="message" placeholder="ข้อความ..." required></textarea>
+      <button type="submit">ส่งข้อความ</button>
+    </form>
+    <p id="formResult"></p>
   </section>
 
   <footer>
-    อินทัช ดวงกระโทก | Ainthat Duangkrathok
+    © 2025 Ainthat Duangkrathok | สร้างด้วยใจรักการเขียนโค้ด
   </footer>
 
   <script>
     const header = document.getElementById('mainHeader');
     const dropdown = document.getElementById('dropdownMenu');
     let lastScrollTop = 0;
-    window.addEventListener('scroll', function() {
+    window.addEventListener('scroll', () => {
       let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
       header.style.top = scrollTop > lastScrollTop ? '-70px' : '0';
       lastScrollTop = scrollTop;
@@ -100,6 +161,24 @@
       const detail = document.getElementById(`detail-${index}`);
       detail.style.display = detail.style.display === 'block' ? 'none' : 'block';
     }
+    // Contact form handling
+    const contactForm = document.getElementById('contactForm');
+    const formResult = document.getElementById('formResult');
+    contactForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const name = this.name.value.trim();
+      const email = this.email.value.trim();
+      const message = this.message.value.trim();
+      if (!name || !email || !message) {
+        formResult.style.color = 'red';
+        formResult.innerText = 'กรุณากรอกทุกช่องให้ครบ';
+        return;
+      }
+      console.log({ name, email, message });
+      formResult.style.color = 'green';
+      formResult.innerText = 'ส่งข้อความสำเร็จ!';
+      this.reset();
+    });
   </script>
 </body>
 </html>
