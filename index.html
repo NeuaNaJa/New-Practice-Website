@@ -4,30 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>เว็บไซต์ทดลองเขียนโค้ด</title>
-  <!--
-    FIRESTORE RULES (ให้คัดลอกไปวางใน Firebase Console > Firestore > Rules)
-
-    // กฎตัวอย่าง: ให้ผู้ใช้ที่เข้าสู่ระบบเท่านั้นอ่าน/เขียน document ของตัวเองได้
-    rules_version = '2';
-    service cloud.firestore {
-      match /databases/{database}/documents {
-        // users collection: ผู้ใช้คนเดียวเข้าถึง doc ของตัวเองได้เท่านั้น
-        match /users/{userId} {
-          allow read, write: if request.auth != null && request.auth.uid == userId;
-        }
-        // posts ตัวอย่าง: อ่านได้ทุกคน เขียนได้เฉพาะผู้ที่เป็นผู้แต่ง
-        match /posts/{postId} {
-          allow read: if true;
-          allow write: if request.auth != null && request.auth.uid == request.resource.data.authorId;
-        }
-      }
-    }
-
-    หมายเหตุ:
-    - คัดลอกกฎด้านบนไปวางในหน้า Rules ของ Firestore แล้ว Publish
-    - อย่าตั้ง rules ให้เปิด (allow read, write: if true) ใน production
-  -->
   <style>
+    /* ... (เหมือนเดิม) */
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; }
     :root{ --blue-600:#0059b3; --blue-500:#3399ff; --bg:#e6f0ff; --muted:#4b6b88; }
     body { background: var(--bg); color: #02233a; line-height: 1.6; padding-top: 72px; }
@@ -94,7 +72,7 @@
   <section class="language-section">
     <h2>ภาษาโปรแกรมยอดนิยมและข้อมูลสำคัญ</h2>
     <div class="lang-grid" id="langGrid">
-      <!-- language cards (full list) -->
+      <!-- language cards (เหมือนเดิม) -->
       <div class="lang-card" onclick="toggleDetail(0)">
         <div class="lang-top"><div class="lang-title">JavaScript</div><div class="lang-meta">Front-end / Full-stack</div></div>
         <div class="lang-summary">ภาษาสคริปต์ฝั่งผู้ใช้ เพิ่มการโต้ตอบในเว็บ และใช้งานบนเซิร์ฟเวอร์ด้วย Node.js</div>
@@ -107,7 +85,6 @@
           </ol>
         </div>
       </div>
-
       <div class="lang-card" onclick="toggleDetail(1)">
         <div class="lang-top"><div class="lang-title">TypeScript</div><div class="lang-meta">Front-end / Large Projects</div></div>
         <div class="lang-summary">ซูเปอร์เซ็ตของ JavaScript ที่มี type system ช่วยลดบั๊กในโปรเจกต์ขนาดใหญ่</div>
@@ -354,7 +331,6 @@
           </ol>
         </div>
       </div>
-
     </div>
   </section>
 
@@ -373,20 +349,15 @@
     © 2025 Ainthat Duangkrathok | สร้างด้วยใจรักการเขียนโค้ด
   </footer>
 
-  <!-- modals for signup/login (content and firebase/local handling in script) -->
   <div class="modal-backdrop" id="modalBackdrop">
-    <div class="modal" id="modalContent">
-      <!-- dynamic content populated by JS -->
-    </div>
+    <div class="modal" id="modalContent"></div>
   </div>
 
   <script type="module">
-  // Firebase SDK (v9 modular) imports
   import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
   import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, sendEmailVerification } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
   import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
-  // --- Firebase config inserted as requested ---
   const firebaseConfig = {
     apiKey: "AIzaSyB4oU-EwUXOVqrJRvRlZFEpaGxP49QPS0w",
     authDomain: "ainthatsite.firebaseapp.com",
@@ -398,23 +369,17 @@
     measurementId: "G-K8X2FJLZHJ"
   };
 
-  // Initialize Firebase
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   const db = getFirestore(app);
   let firebaseEnabled = true;
 
-  /* ---------- AUTH UI + LOCAL demo + (optional) Firebase code ---------- */
-
-  // State (local demo still kept as fallback for learning)
   let users = JSON.parse(localStorage.getItem('demo_users') || '[]');
   let currentUser = JSON.parse(localStorage.getItem('demo_current') || 'null');
 
-  // helpers
   function saveUsers(){ localStorage.setItem('demo_users', JSON.stringify(users)); }
   function setCurrent(user){ localStorage.setItem('demo_current', JSON.stringify(user)); currentUser = user; renderAuthState(); }
 
-  // Render auth buttons / user state
   function renderAuthState(){
     const authEl = document.getElementById('authButtons');
     authEl.innerHTML = '';
@@ -425,14 +390,13 @@
       authEl.appendChild(name); authEl.appendChild(out);
     } else {
       const signup = document.createElement('a'); signup.className='auth-btn'; signup.href='#'; signup.innerText='สมัครสมาชิก'; signup.onclick = (e)=>{ e.preventDefault(); openModal('signup'); };
-      const login = document.createElement('a'); login.className='auth-btn primary'; login.href'#'; login.innerText='ลงชื่อเข้าใช้'; login.onclick = (e)=>{ e.preventDefault(); openModal('login'); };
+      const login = document.createElement('a'); login.className='auth-btn primary'; login.href='#'; login.innerText='ลงชื่อเข้าใช้'; login.onclick = (e)=>{ e.preventDefault(); openModal('login'); };
       authEl.appendChild(signup); authEl.appendChild(login);
     }
   }
 
   renderAuthState();
 
-  // Modal management
   const modalBackdrop = document.getElementById('modalBackdrop');
   const modalContent = document.getElementById('modalContent');
   function openModal(type){
@@ -469,7 +433,6 @@
     `;
   }
 
-  // Combined handlers: choose Firebase if enabled, otherwise fallback to local demo
   async function handleSignup(){
     const name = document.getElementById('suName').value.trim();
     const email = document.getElementById('suEmail').value.trim();
@@ -479,9 +442,7 @@
     if (firebaseEnabled){
       try {
         const cred = await createUserWithEmailAndPassword(auth, email, pass);
-        // save profile to Firestore
         await setDoc(doc(db, 'users', cred.user.uid), { displayName: name, email, createdAt: new Date().toISOString() });
-        // send verification email and sign out to force verification
         try{ await sendEmailVerification(cred.user); }catch(e){}
         await signOut(auth);
         closeModal();
@@ -490,7 +451,6 @@
         alert('สมัครไม่สำเร็จ: ' + err.message);
       }
     } else {
-      // fallback local demo
       if (users.find(u=>u.email===email)) { alert('อีเมลนี้มีผู้ใช้แล้ว'); return; }
       const user = { id: Date.now(), displayName: name, email, password: pass };
       users.push(user); saveUsers(); setCurrent({ displayName: name, email }); closeModal(); alert('สมัครเรียบร้อย (demo)');
@@ -505,14 +465,12 @@
     if (firebaseEnabled){
       try {
         const cred = await signInWithEmailAndPassword(auth, email, pass);
-        // if email not verified: resend verification and sign out
         if (!cred.user.emailVerified){
           try{ await sendEmailVerification(cred.user); }catch(e){}
           await signOut(auth);
           alert('บัญชียังไม่ยืนยันอีเมล — ส่งอีเมลยืนยันอีกครั้งแล้ว กรุณายืนยันก่อนล็อกอิน');
           return;
         }
-        // read displayName from Firestore if available (optional)
         setCurrent({ displayName: cred.user.displayName || email, email });
         closeModal();
         alert('เข้าสู่ระบบสำเร็จ (Firebase)');
@@ -535,12 +493,9 @@
     }
   }
 
-  // Listen to Firebase auth state to keep UI in sync
   onAuthStateChanged(auth, user => {
     if (user){
-      // only accept verified users into current session
       if (!user.emailVerified){
-        // if user somehow signed in without verification, sign out and inform
         signOut(auth).catch(()=>{});
         alert('บัญชียังไม่ได้ยืนยันอีเมล กรุณายืนยันก่อนใช้งาน');
         renderAuthState();
@@ -548,11 +503,19 @@
       }
       setCurrent({ displayName: user.displayName || user.email, email: user.email });
     } else {
-      if (currentUser === null) renderAuthState();
+      if (!currentUser) renderAuthState();
     }
   });
 
-  /* ---------- language accordion & other UI logic ---------- */
+  // เมนูมือถือ
+  const dropdownMenu = document.getElementById('dropdownMenu');
+  function toggleMenu(){
+    if (dropdownMenu.style.display === 'flex') dropdownMenu.style.display = 'none';
+    else dropdownMenu.style.display = 'flex';
+  }
+  window.toggleMenu = toggleMenu;
+
+  // ฟังก์ชันเปิดโมดัลและเปิดรายละเอียด
   function toggleDetail(index) {
     const detail = document.getElementById(`detail-${index}`);
     if (!detail) return;
@@ -561,275 +524,27 @@
     detail.style.display = isVisible ? 'none' : 'block';
     if (!isVisible) detail.parentElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
+  window.toggleDetail = toggleDetail;
 
-  // Contact form handling
-  const contactForm = document.getElementById('contactForm');
-  const formResult = document.getElementById('formResult');
-  contactForm.addEventListener('submit', function(e) {
+  window.openModal = openModal;
+  window.closeModal = closeModal;
+  window.handleSignup = handleSignup;
+  window.handleLogin = handleLogin;
+
+  // ฟอร์มติดต่อ
+  document.getElementById('contactForm').addEventListener('submit', e => {
     e.preventDefault();
-    const name = this.name.value.trim();
-    const email = this.email.value.trim();
-    const message = this.message.value.trim();
+    const name = e.target.name?.value || e.target.querySelector('#name')?.value || '';
+    const email = e.target.email?.value || e.target.querySelector('#email')?.value || '';
+    const message = e.target.message?.value || e.target.querySelector('#message')?.value || '';
     if (!name || !email || !message) {
-      formResult.style.color = 'red';
-      formResult.innerText = 'กรุณากรอกทุกช่องให้ครบ';
+      alert('กรุณากรอกข้อมูลให้ครบ');
       return;
     }
-    console.log({ name, email, message });
-    formResult.style.color = 'green';
-    formResult.innerText = 'ส่งข้อความสำเร็จ!';
-    this.reset();
+    alert('ขอบคุณสำหรับข้อความของคุณ! เราจะติดต่อกลับโดยเร็วที่สุด');
+    e.target.reset();
   });
 
-  // render auth state at load
-  window.addEventListener('load', ()=>{ renderAuthState(); });
-
-  function toggleMenu(){ const dd=document.getElementById('dropdownMenu'); dd.style.display = dd.style.display === 'flex' ? 'none':'flex'; }
-</script>
-</body>
-</html>
-
-
-<!--
-  Below are separate page files you can add to your project folder as individual HTML files.
-  Copy each section into its own file (signup.html, login.html, dashboard.html).
--->
-
-
-<!-- signup.html -->
-
-<!------------------------------------------------------------------>
-<!-- Copy the following into a new file named: signup.html          -->
-<!------------------------------------------------------------------>
-
-<!--
-<!DOCTYPE html>
-<html lang="th">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>สมัครสมาชิก - Ainthat Code Lab</title>
-  <style>
-    body{font-family:Inter,system-ui, -apple-system, 'Segoe UI', Roboto, Arial; background:#e6f0ff; display:flex;align-items:center;justify-content:center;height:100vh;margin:0}
-    .card{background:#fff;padding:28px;border-radius:12px;box-shadow:0 10px 30px rgba(2,20,60,0.12);width:360px}
-    input{width:100%;padding:10px;margin:8px 0;border-radius:8px;border:1px solid #dfefff}
-    button{background:#0059b3;color:#fff;padding:10px;border-radius:8px;border:none;cursor:pointer;width:100%}
-  </style>
-</head>
-<body>
-  <div class="card">
-    <h2>สมัครสมาชิก</h2>
-    <form id="signupForm">
-      <input id="email" type="email" placeholder="อีเมล" required />
-      <input id="password" type="password" placeholder="รหัสผ่าน" required />
-      <button type="submit">สมัครสมาชิก</button>
-    </form>
-    <p style="margin-top:12px">มีบัญชีแล้ว? <a href="login.html">เข้าสู่ระบบ</a></p>
-  </div>
-
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-    import { getAuth, createUserWithEmailAndPassword, sendEmailVerification } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyB4oU-EwUXOVqrJRvRlZFEpaGxP49QPS0w",
-      authDomain: "ainthatsite.firebaseapp.com",
-      databaseURL: "https://ainthatsite-default-rtdb.firebaseio.com",
-      projectId: "ainthatsite",
-      storageBucket: "ainthatsite.firebasestorage.app",
-      messagingSenderId: "982245018959",
-      appId: "982245018959:web:2400c440a5205d4813c93a",
-      measurementId: "G-K8X2FJLZHJ"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-
-    document.getElementById('signupForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const email = document.getElementById('email').value.trim();
-      const password = document.getElementById('password').value;
-      try{
-        const cred = await createUserWithEmailAndPassword(auth, email, password);
-        await sendEmailVerification(cred.user);
-        alert('สมัครสำเร็จ! กรุณาตรวจสอบอีเมลเพื่อยืนยันก่อนล็อกอิน');
-        window.location.href = 'verify.html';
-      }catch(err){ alert('สมัครไม่สำเร็จ: '+err.message); }
-    });
   </script>
 </body>
 </html>
--->
-
-
-<!-- login.html -->
-
-<!------------------------------------------------------------------>
-<!-- Copy the following into a new file named: login.html           -->
-<!------------------------------------------------------------------>
-
-<!--
-<!DOCTYPE html>
-<html lang="th">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>เข้าสู่ระบบ - Ainthat Code Lab</title>
-  <style>
-    body{font-family:Inter,system-ui, -apple-system, 'Segoe UI', Roboto, Arial; background:#e6f0ff; display:flex;align-items:center;justify-content:center;height:100vh;margin:0}
-    .card{background:#fff;padding:28px;border-radius:12px;box-shadow:0 10px 30px rgba(2,20,60,0.12);width:360px}
-    input{width:100%;padding:10px;margin:8px 0;border-radius:8px;border:1px solid #dfefff}
-    button{background:#0059b3;color:#fff;padding:10px;border-radius:8px;border:none;cursor:pointer;width:100%}
-  </style>
-</head>
-<body>
-  <div class="card">
-    <h2>เข้าสู่ระบบ</h2>
-    <form id="loginForm">
-      <input id="email" type="email" placeholder="อีเมล" required />
-      <input id="password" type="password" placeholder="รหัสผ่าน" required />
-      <button type="submit">เข้าสู่ระบบ</button>
-    </form>
-    <p style="margin-top:12px">ยังไม่มีบัญชี? <a href="signup.html">สมัครสมาชิก</a></p>
-  </div>
-
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyB4oU-EwUXOVqrJRvRlZFEpaGxP49QPS0w",
-      authDomain: "ainthatsite.firebaseapp.com",
-      databaseURL: "https://ainthatsite-default-rtdb.firebaseio.com",
-      projectId: "ainthatsite",
-      storageBucket: "ainthatsite.firebasestorage.app",
-      messagingSenderId: "982245018959",
-      appId: "982245018959:web:2400c440a5205d4813c93a",
-      measurementId: "G-K8X2FJLZHJ"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-
-    document.getElementById('loginForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const email = document.getElementById('email').value.trim();
-      const password = document.getElementById('password').value;
-      try{
-        const cred = await signInWithEmailAndPassword(auth, email, password);
-        if(!cred.user.emailVerified){
-          alert('กรุณายืนยันอีเมลก่อนเข้าสู่ระบบ');
-          await auth.signOut();
-          window.location.href = 'verify.html';
-          return;
-        }
-        window.location.href = 'dashboard.html';
-      }catch(err){ alert('เข้าสู่ระบบล้มเหลว: '+err.message); }
-    });
-  </script>
-</body>
-</html>
--->
-
-
-<!-- dashboard.html -->
-
-<!------------------------------------------------------------------>
-<!-- Copy the following into a new file named: dashboard.html       -->
-<!------------------------------------------------------------------>
-
-<!--
-<!DOCTYPE html>
-<html lang="th">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Dashboard - Ainthat Code Lab</title>
-  <style>
-    body{font-family:Inter,system-ui, -apple-system, 'Segoe UI', Roboto, Arial; background:#e6f0ff;margin:0;padding:24px}
-    .card{background:#fff;padding:18px;border-radius:12px;box-shadow:0 8px 20px rgba(2,20,60,0.08);max-width:900px;margin:24px auto}
-    a.btn{display:inline-block;background:#0059b3;color:#fff;padding:8px 12px;border-radius:8px;text-decoration:none}
-  </style>
-</head>
-<body>
-  <div class="card">
-    <h1>ยินดีต้อนรับสู่ Dashboard</h1>
-    <p>คุณเข้าสู่ระบบเรียบร้อยแล้ว</p>
-    <a class="btn" href="index.html">กลับสู่หน้าหลัก</a>
-  </div>
-
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyB4oU-EwUXOVqrJRvRlZFEpaGxP49QPS0w",
-      authDomain: "ainthatsite.firebaseapp.com",
-      databaseURL: "https://ainthatsite-default-rtdb.firebaseio.com",
-      projectId: "ainthatsite",
-      storageBucket: "ainthatsite.firebasestorage.app",
-      messagingSenderId: "982245018959",
-      appId: "982245018959:web:2400c440a5205d4813c93a",
-      measurementId: "G-K8X2FJLZHJ"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-
-    onAuthStateChanged(auth, user => {
-      if(!user || !user.emailVerified){
-        // not allowed
-        window.location.href = 'verify.html';
-      }
-    });
-
-    // optional: add logout button behavior
-    async function logout(){ await signOut(auth); window.location.href = 'index.html'; }
-  </script>
-</body>
-</html>
--->
-
-
-<!-- verify.html -->
-
-<!------------------------------------------------------------------>
-<!-- Copy the following into a new file named: verify.html          -->
-<!------------------------------------------------------------------>
-
-<!--
-<!DOCTYPE html>
-<html lang="th">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>ยืนยันอีเมล - Ainthat Code Lab</title>
-  <style>
-    body{font-family:Inter,system-ui, -apple-system, 'Segoe UI', Roboto, Arial; background:#0059b3;color:white;display:flex;align-items:center;justify-content:center;height:100vh;margin:0}
-    .card{background:rgba(255,255,255,0.06);padding:28px;border-radius:12px;text-align:center}
-    a{color:yellow}
-  </style>
-</head>
-<body>
-  <div class="card">
-    <h2>กรุณายืนยันอีเมลของคุณ</h2>
-    <p>เราได้ส่งลิงก์ยืนยันไปยังอีเมลของคุณแล้ว — กรุณาเปิดอีเมลและคลิกลิงก์</p>
-    <p>เมื่อยืนยันแล้ว ให้กลับมาที่หน้า <a href="login.html">เข้าสู่ระบบ</a></p>
-  </div>
-</body>
-</html>
--->
-
-
-<!-- Quick instructions -->
-<!-- 1) Copy each commented block into its own file (signup.html, login.html, dashboard.html, verify.html) -->
-<!-- 2) Add those files to your git repo, commit and push. Example commands: -->
-<!--    git add signup.html login.html dashboard.html verify.html -->
-<!--    git commit -m "Add auth pages" -->
-<!--    git push origin main -->
-<!-- 3) Make sure Firebase Authentication Email/Password is enabled in Console and Firestore rules are published. -->
-
-<!-- If you want, I can now: -->
-<!-- - generate the exact git commands for you to run (one step at a time) -->
-<!-- - or modify any of the page designs / wording before you copy them -->
--->
