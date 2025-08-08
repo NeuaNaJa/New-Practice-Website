@@ -495,12 +495,12 @@
 
   onAuthStateChanged(auth, user => {
     if (user){
-      if (!user.emailVerified){
-        signOut(auth).catch(()=>{});
-        alert('บัญชียังไม่ได้ยืนยันอีเมล กรุณายืนยันก่อนใช้งาน');
-        renderAuthState();
-        return;
-      }
+      //if (!user.emailVerified){
+       // signOut(auth).catch(()=>{});
+        //alert('บัญชียังไม่ได้ยืนยันอีเมล กรุณายืนยันก่อนใช้งาน');
+        //renderAuthState();
+        //return;
+      //}
       setCurrent({ displayName: user.displayName || user.email, email: user.email });
     } else {
       if (!currentUser) renderAuthState();
