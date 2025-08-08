@@ -5,46 +5,66 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>เว็บไซต์ทดลองเขียนโค้ด</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
-    body { background: #e6f0ff; color: #002244; line-height: 1.6; padding-top: 60px; }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; }
+    :root{
+      --blue-600:#0059b3; --blue-500:#3399ff; --bg:#e6f0ff; --muted:#4b6b88;
+    }
+    body { background: var(--bg); color: #02233a; line-height: 1.6; padding-top: 72px; }
+
     /* Header */
-    header { position: fixed; top: 0; left: 0; width: 100%; background: #0059b3; color: #fff; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; z-index: 1000; transition: top 0.3s; }
-    .left-menu a { color: #fff; text-decoration: none; margin-right: 15px; }
-    .menu-toggle { cursor: pointer; font-size: 24px; }
-    .dropdown-menu { display: none; position: absolute; top: 60px; right: 20px; background: #004080; flex-direction: column; padding: 10px; border-radius: 5px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
-    .dropdown-menu a { color: #fff; text-decoration: none; padding: 8px 0; }
-    /* Hero Section */
-    .hero { height: 50vh; display: flex; justify-content: center; align-items: center; background: linear-gradient(135deg, #3399ff, #0059b3); color: #fff; text-align: center; animation: fadeIn 1s ease; }
-    .hero h1 { font-size: 2.5rem; animation: slideDown 1s ease; }
-    /* Language Cards Section */
-    .language-section { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
-    .language-section h2 { text-align: center; color: #003366; margin-bottom: 20px; }
-    .lang-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
-    .lang-card { background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); cursor: pointer; transition: transform 0.2s; }
-    .lang-card:hover { transform: translateY(-5px); }
-    .lang-title { font-size: 1.2rem; color: #0059b3; margin-bottom: 10px; }
-    .lang-summary { color: #004080; font-size: 0.95rem; margin-bottom: 10px; }
-    .lang-detail { display: none; margin-top: 10px; color: #333; font-size: 0.9rem; line-height: 1.4; }
-    .lang-detail ul { margin-left: 20px; list-style-type: disc; }
-    /* Contact Section */
-    #contact { max-width: 600px; margin: 40px auto; padding: 20px; background: #fff; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-    #contact h2 { text-align: center; color: #003366; margin-bottom: 10px; }
-    #contactForm input, #contactForm textarea, #contactForm button { display: block; width: 100%; margin-bottom: 10px; padding: 10px; font-size: 1rem; }
-    #contactForm button { background: #0059b3; color: #fff; border: none; border-radius: 5px; cursor: pointer; }
+    header { position: fixed; top: 0; left: 0; width: 100%; background: var(--blue-600); color: #fff; padding: 12px 24px; display: flex; justify-content: space-between; align-items: center; z-index: 1000; transition: top 0.28s ease; box-shadow: 0 2px 8px rgba(3,45,80,0.15); }
+    .brand { font-weight:700; letter-spacing:0.2px; }
+    .left-menu { display:flex; gap:12px; align-items:center; }
+    .auth-btn { background: rgba(255,255,255,0.12); color:#fff; padding:8px 14px; border-radius:999px; border: 1px solid rgba(255,255,255,0.12); text-decoration:none; font-size:0.95rem; transition: background .18s, transform .12s; }
+    .auth-btn:hover{ background: rgba(255,255,255,0.18); transform:translateY(-2px); }
+    .auth-btn.primary{ background:#fff; color:var(--blue-600); font-weight:600; }
+
+    .menu-toggle { cursor: pointer; font-size: 22px; color: #fff; padding:6px; border-radius:6px; }
+    .dropdown-menu { display: none; position: absolute; top: 60px; right: 24px; background: #004080; flex-direction: column; padding: 10px; border-radius: 8px; box-shadow: 0 8px 20px rgba(0,0,0,0.18); }
+    .dropdown-menu a { color: #fff; text-decoration: none; padding: 8px 12px; border-radius:6px; display:block; }
+    .dropdown-menu a:hover{ background: rgba(255,255,255,0.06); }
+
+    /* Hero */
+    .hero { min-height:40vh; display:flex; align-items:center; justify-content:center; background: linear-gradient(135deg,var(--blue-500),var(--blue-600)); color:#fff; text-align:center; padding:48px 20px; border-bottom-left-radius: 18px; border-bottom-right-radius: 18px; box-shadow: inset 0 -20px 60px rgba(0,0,0,0.06); }
+    .hero h1{ font-size:2rem; max-width:900px; line-height:1.2; }
+
+    /* Language grid */
+    .language-section{ max-width:1200px; margin:36px auto; padding: 0 20px; }
+    .language-section h2{ text-align:center; color:#02233a; margin-bottom:18px; }
+    .lang-grid{ display:grid; grid-template-columns: repeat(auto-fit,minmax(260px,1fr)); gap:18px; }
+
+    .lang-card{ background:#fff; border-radius:12px; padding:18px; box-shadow: 0 6px 18px rgba(1,40,88,0.06); cursor:pointer; transition: transform .12s, box-shadow .12s; }
+    .lang-card:hover{ transform: translateY(-6px); box-shadow: 0 14px 30px rgba(1,40,88,0.08); }
+    .lang-top{ display:flex; justify-content:space-between; align-items:flex-start; gap:10px; }
+    .lang-title{ font-size:1.05rem; color:var(--blue-600); font-weight:700; }
+    .lang-summary{ color:var(--muted); margin-top:8px; font-size:0.95rem; }
+
+    .lang-detail{ margin-top:12px; display:none; color:#223645; font-size:0.92rem; }
+    .lang-detail h4{ margin-bottom:8px; color:var(--blue-600); }
+    .lang-detail ol{ margin-left:18px; margin-bottom:8px; }
+    .lang-meta{ font-size:0.85rem; color:#6b7a8a; margin-top:8px; }
+
+    /* Contact */
+    #contact{ max-width:720px; margin:28px auto; padding:22px; background:#fff; border-radius:12px; box-shadow: 0 8px 20px rgba(1,40,88,0.05); }
+    #contact h2{ text-align:center; color:#02233a; margin-bottom:12px; }
+    #contactForm input, #contactForm textarea{ width:100%; padding:12px; margin-bottom:10px; border-radius:8px; border:1px solid #d7e6ff; }
+    #contactForm button{ background:var(--blue-600); color:#fff; padding:10px 14px; border-radius:8px; border:none; cursor:pointer; font-weight:600; }
+
     /* Footer */
-    footer { background: #0059b3; color: #fff; text-align: center; padding: 20px; margin-top: 40px; animation: fadeIn 1s ease; }
-    /* Animations */
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    @keyframes slideDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    footer{ max-width:1200px; margin:28px auto; text-align:center; color:#fff; background:var(--blue-600); padding:18px; border-radius:10px; }
+
+    /* Responsive tweaks */
+    @media (max-width:600px){ .left-menu{ display:none; } header{ padding:10px 14px; } }
   </style>
 </head>
 <body>
   <header id="mainHeader">
+    <div class="brand">Ainthat Code Lab</div>
     <div class="left-menu">
-      <a href="#">สมัครสมาชิก</a>
-      <a href="#contact">ติดต่อ</a>
+      <a class="auth-btn" href="#signup">สมัครสมาชิก</a>
+      <a class="auth-btn primary" href="#login">ลงชื่อเข้าใช้</a>
     </div>
-    <div class="menu-toggle" onclick="toggleMenu()">&#9776;</div>
+    <div class="menu-toggle" onclick="toggleMenu()">☰</div>
     <div class="dropdown-menu" id="dropdownMenu">
       <a href="#">หน้าหลัก</a>
       <a href="#contact">ติดต่อ</a>
@@ -53,80 +73,273 @@
   </header>
 
   <section class="hero">
-    <h1>ยินดีต้อนรับสู่เว็บไซต์ทดลองเขียนโค้ด</h1>
+    <h1>ยินดีต้อนรับสู่ Ainthat Code Lab — แหล่งความรู้ภาษาโปรแกรมสำหรับผู้เริ่มต้นและผู้พัฒนา</h1>
   </section>
 
   <section class="language-section">
-    <h2>ความรู้ภาษาโปรแกรม</h2>
+    <h2>ภาษาโปรแกรมยอดนิยมและข้อมูลสำคัญ</h2>
     <div class="lang-grid" id="langGrid">
-      <!-- Cards: name, summary, detail -->
+      <!-- We'll list many languages here -->
       <div class="lang-card" onclick="toggleDetail(0)">
-        <div class="lang-title">JavaScript</div>
-        <div class="lang-summary">ภาษา script บนฝั่ง client ใช้จัดการ DOM และเพิ่มความโต้ตอบ</div>
+        <div class="lang-top"><div class="lang-title">JavaScript</div><div class="lang-meta">Front-end / Full-stack</div></div>
+        <div class="lang-summary">ภาษาสคริปต์ฝั่งผู้ใช้ เพิ่มการโต้ตอบในเว็บ และใช้งานบนเซิร์ฟเวอร์ด้วย Node.js</div>
         <div class="lang-detail" id="detail-0">
-          <ul>
-            <li>กำเนิดจาก Netscape ในปี 1995</li>
-            <li>ใช้ในการจัดการองค์ประกอบหน้าเว็บ (DOM manipulation)</li>
-            <li>รองรับ event handling และ AJAX</li>
-            <li>สามารถใช้ฝั่ง server ด้วย Node.js</li>
-          </ul>
+          <h4>รายละเอียด & หน้าที่</h4>
+          <ol>
+            <li>พื้นฐาน: ส่งคำสั่งให้เบราว์เซอร์จัดการ DOM และ event</li>
+            <li>สภาพแวดล้อม: รันบนเบราว์เซอร์ และ Node.js (Server-side)</li>
+            <li>เครื่องมือที่นิยม: React, Vue, Angular, Express</li>
+          </ol>
         </div>
       </div>
+
       <div class="lang-card" onclick="toggleDetail(1)">
-        <div class="lang-title">Python</div>
-        <div class="lang-summary">ภาษาโปรแกรมเชิงวัตถุ ใช้ง่าย นิยมด้าน Data Science และ Web Backend</div>
+        <div class="lang-top"><div class="lang-title">TypeScript</div><div class="lang-meta">Front-end / Large Projects</div></div>
+        <div class="lang-summary">ซูเปอร์เซ็ตของ JavaScript ที่มี type system ช่วยลดบั๊กในโปรเจกต์ขนาดใหญ่</div>
         <div class="lang-detail" id="detail-1">
-          <ul>
-            <li>ออกแบบโดย Guido van Rossum ในปี 1991</li>
-            <li>มีไลบรารีครอบคลุม เช่น NumPy, Pandas, Flask, Django</li>
-            <li>ใช้เขียนสคริปต์ และระบบอัตโนมัติ</li>
-          </ul>
+          <h4>รายละเอียด & หน้าที่</h4>
+          <ol>
+            <li>พื้นฐาน: เพิ่มชนิดข้อมูล (types) ให้ JavaScript</li>
+            <li>สภาพแวดล้อม: แปลงเป็น JS ก่อนรัน (transpile)</li>
+            <li>เครื่องมือที่นิยม: Angular, React + TS, NestJS</li>
+          </ol>
         </div>
       </div>
+
       <div class="lang-card" onclick="toggleDetail(2)">
-        <div class="lang-title">Java</div>
-        <div class="lang-summary">ภาษาแบบ compiled รันบน JVM เขียนครั้งเดียวรันได้ทุกที่</div>
+        <div class="lang-top"><div class="lang-title">Python</div><div class="lang-meta">Data / Backend / Scripting</div></div>
+        <div class="lang-summary">ภาษาใช้งานง่าย นิยมใช้ด้าน Data Science, Machine Learning และ Web Backend</div>
         <div class="lang-detail" id="detail-2">
-          <ul>
-            <li>พัฒนาโดย Sun Microsystems ในปี 1995</li>
-            <li>ใช้ใน Android, Enterprise Application, Big Data</li>
-            <li>มี garbage collection และระบบแพ็กเกจ</li>
-          </ul>
+          <h4>รายละเอียด & หน้าที่</h4>
+          <ol>
+            <li>พื้นฐาน: โค้ดอ่านง่าย เหมาะกับการเรียนรู้และการทำโปรโตไทป์</li>
+            <li>สภาพแวดล้อม: รันฝั่งเซิร์ฟเวอร์, notebooks (Jupyter)</li>
+            <li>เครื่องมือที่นิยม: NumPy, Pandas, scikit-learn, TensorFlow, Flask, Django</li>
+          </ol>
         </div>
       </div>
+
       <div class="lang-card" onclick="toggleDetail(3)">
-        <div class="lang-title">C++</div>
-        <div class="lang-summary">ภาษาที่ขยายจาก C รองรับ OOP ใช้ในระบบและเกม</div>
+        <div class="lang-top"><div class="lang-title">Java</div><div class="lang-meta">Enterprise / Android</div></div>
+        <div class="lang-summary">ภาษาเชิงวัตถุ รันบน JVM เหมาะกับระบบระดับองค์กรและแอป Android</div>
         <div class="lang-detail" id="detail-3">
-          <ul>
-            <li>ออกแบบโดย Bjarne Stroustrup ในปี 1985</li>
-            <li>ชั้นต่ำ ใกล้ฮาร์ดแวร์, ประสิทธิภาพสูง</li>
-            <li>ใช้พัฒนาเกม, ซอฟต์แวร์ระบบ, embedded</li>
-          </ul>
+          <h4>รายละเอียด & หน้าที่</h4>
+          <ol>
+            <li>พื้นฐาน: คอมไพล์เป็น bytecode บน JVM</li>
+            <li>สภาพแวดล้อม: Server-side, Android</li>
+            <li>เครื่องมือที่นิยม: Spring, Hibernate, Android SDK</li>
+          </ol>
         </div>
       </div>
+
       <div class="lang-card" onclick="toggleDetail(4)">
-        <div class="lang-title">Ruby</div>
-        <div class="lang-summary">ภาษา dynamic, ง่ายต่อการอ่าน เข้ากับ Rails ได้ดี</div>
+        <div class="lang-top"><div class="lang-title">C</div><div class="lang-meta">Systems / Embedded</div></div>
+        <div class="lang-summary">ภาษาเชิงกระบวนการ ระดับต่ำ ถูกใช้พัฒนาระบบปฏิบัติการและ embedded</div>
         <div class="lang-detail" id="detail-4">
-          <ul>
-            <li>สร้างโดย Yukihiro Matsumoto ในปี 1995</li>
-            <li>ใช้ในเว็บแอปด้วย Ruby on Rails</li>
-            <li>มี syntax ที่เป็นมิตรกับผู้ใช้</li>
-          </ul>
+          <h4>รายละเอียด & หน้าที่</h4>
+          <ol>
+            <li>พื้นฐาน: ใกล้ฮาร์ดแวร์ ควบคุมหน่วยความจำโดยตรง</li>
+            <li>สภาพแวดล้อม: ระบบฝังตัว, เคอร์เนล, ไลบรารีประสิทธิภาพสูง</li>
+            <li>เครื่องมือที่นิยม: GCC, Clang</li>
+          </ol>
         </div>
       </div>
+
       <div class="lang-card" onclick="toggleDetail(5)">
-        <div class="lang-title">PHP</div>
-        <div class="lang-summary">ภาษา script บน server นิยมทำเว็บไดนามิก</div>
+        <div class="lang-top"><div class="lang-title">C++</div><div class="lang-meta">Game / Systems</div></div>
+        <div class="lang-summary">ขยายจาก C รองรับ OOP และมีประสิทธิภาพสูง เหมาะสำหรับเกมและซอฟต์แวร์ระบบ</div>
         <div class="lang-detail" id="detail-5">
-          <ul>
-            <li>สร้างโดย Rasmus Lerdorf ในปี 1994</li>
-            <li>ฝังใน HTML ทำงานฝั่ง server</li>
-            <li>ใช้กับ CMS เช่น WordPress, Drupal, Joomla</li>
-          </ul>
+          <h4>รายละเอียด & หน้าที่</h4>
+          <ol>
+            <li>พื้นฐาน: สนับสนุน OOP, template และการจัดการหน่วยความจำแบบละเอียด</li>
+            <li>สภาพแวดล้อม: เกม เอนจิน และแอปที่ต้องการประสิทธิภาพ</li>
+            <li>เครื่องมือที่นิยม: MSVC, GCC, Clang, Unreal Engine</li>
+          </ol>
         </div>
       </div>
+
+      <div class="lang-card" onclick="toggleDetail(6)">
+        <div class="lang-top"><div class="lang-title">C#</div><div class="lang-meta">Enterprise / Game</div></div>
+        <div class="lang-summary">ภาษาโดย Microsoft ใช้กับ .NET, เหมาะงาน enterprise และพัฒนาเกมด้วย Unity</div>
+        <div class="lang-detail" id="detail-6">
+          <h4>รายละเอียด & หน้าที่</h4>
+          <ol>
+            <li>พื้นฐาน: ทำงานบน CLR (Common Language Runtime)</li>
+            <li>สภาพแวดล้อม: .NET, Unity</li>
+            <li>เครื่องมือที่นิยม: .NET Core/Framework, Unity</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="lang-card" onclick="toggleDetail(7)">
+        <div class="lang-top"><div class="lang-title">Go (Golang)</div><div class="lang-meta">Cloud / Systems</div></div>
+        <div class="lang-summary">ภาษาที่ออกแบบโดย Google เน้นความเร็วและความเรียบง่าย เหมาะกับ microservices และ cloud</div>
+        <div class="lang-detail" id="detail-7">
+          <h4>รายละเอียด & หน้าที่</h4>
+          <ol>
+            <li>พื้นฐาน: คอมไพล์เป็นไบนารี ขนาดเล็ก รันเร็ว</li>
+            <li>สภาพแวดล้อม: Backend, CLI, Cloud services</li>
+            <li>เครื่องมือที่นิยม: Docker, Kubernetes interactions, Gin</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="lang-card" onclick="toggleDetail(8)">
+        <div class="lang-top"><div class="lang-title">Rust</div><div class="lang-meta">Systems / Safe code</div></div>
+        <div class="lang-summary">ภาษาสมัยใหม่เน้นความปลอดภัยหน่วยความจำและประสิทธิภาพ เหมาะกับ systems programming</div>
+        <div class="lang-detail" id="detail-8">
+          <h4>รายละเอียด & หน้าที่</h4>
+          <ol>
+            <li>พื้นฐาน: Ownership model ป้องกัน data races</li>
+            <li>สภาพแวดล้อม: Systems, WebAssembly, embedded</li>
+            <li>เครื่องมือที่นิยม: Cargo, Tokio, WASM toolchains</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="lang-card" onclick="toggleDetail(9)">
+        <div class="lang-top"><div class="lang-title">PHP</div><div class="lang-meta">Web Backend</div></div>
+        <div class="lang-summary">ภาษา script ฝั่งเซิร์ฟเวอร์ นิยมทำเว็บไดนามิก และ CMS ขนาดใหญ่</div>
+        <div class="lang-detail" id="detail-9">
+          <h4>รายละเอียด & หน้าที่</h4>
+          <ol>
+            <li>พื้นฐาน: ฝังโค้ดใน HTML ประมวลผลที่เซิร์ฟเวอร์</li>
+            <li>สภาพแวดล้อม: Web servers, shared hosting</li>
+            <li>เครื่องมือที่นิยม: Laravel, WordPress, Composer</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="lang-card" onclick="toggleDetail(10)">
+        <div class="lang-top"><div class="lang-title">Ruby</div><div class="lang-meta">Web / Startup</div></div>
+        <div class="lang-summary">ภาษาเน้นความพึงพอใจของโปรแกรมเมอร์ ใช้งานบ่อยกับ Ruby on Rails</div>
+        <div class="lang-detail" id="detail-10">
+          <h4>รายละเอียด & หน้าที่</h4>
+          <ol>
+            <li>พื้นฐาน: syntax เป็นมิตรกับนักพัฒนา</li>
+            <li>สภาพแวดล้อม: Web apps (Rails)</li>
+            <li>เครื่องมือที่นิยม: Ruby on Rails, RSpec</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="lang-card" onclick="toggleDetail(11)">
+        <div class="lang-top"><div class="lang-title">Swift</div><div class="lang-meta">iOS / macOS</div></div>
+        <div class="lang-summary">ภาษาสมัยใหม่ของ Apple สำหรับพัฒนา iOS, macOS, และระบบต่าง ๆ</div>
+        <div class="lang-detail" id="detail-11">
+          <h4>รายละเอียด & หน้าที่</h4>
+          <ol>
+            <li>พื้นฐาน: พัฒนาโดย Apple แทน Objective-C</li>
+            <li>สภาพแวดล้อม: iOS, macOS, SwiftUI</li>
+            <li>เครื่องมือที่นิยม: Xcode, Swift Package Manager</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="lang-card" onclick="toggleDetail(12)">
+        <div class="lang-top"><div class="lang-title">Kotlin</div><div class="lang-meta">Android / Backend</div></div>
+        <div class="lang-summary">ภาษาที่แทน Java บน Android อย่างเป็นทางการ สนับสนุนความปลอดภัยของ null และสไตล์โมเดิร์น</div>
+        <div class="lang-detail" id="detail-12">
+          <h4>รายละเอียด & หน้าที่</h4>
+          <ol>
+            <li>พื้นฐาน: รันบน JVM, interoperable กับ Java</li>
+            <li>สภาพแวดล้อม: Android, Backend (Ktor, Spring)</li>
+            <li>เครื่องมือที่นิยม: Android Studio, Gradle</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="lang-card" onclick="toggleDetail(13)">
+        <div class="lang-top"><div class="lang-title">Dart</div><div class="lang-meta">Mobile / Web</div></div>
+        <div class="lang-summary">ภาษาของ Google ใช้ร่วมกับ Flutter เพื่อสร้าง UI แบบ cross-platform</div>
+        <div class="lang-detail" id="detail-13">
+          <h4>รายละเอียด & หน้าที่</h4>
+          <ol>
+            <li>พื้นฐาน: เน้น UI มีแบบแผน reactive</li>
+            <li>สภาพแวดล้อม: Mobile (Flutter), Web</li>
+            <li>เครื่องมือที่นิยม: Flutter SDK</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="lang-card" onclick="toggleDetail(14)">
+        <div class="lang-top"><div class="lang-title">SQL</div><div class="lang-meta">Data / Database</div></div>
+        <div class="lang-summary">ภาษาเชิงประกาศสำหรับจัดการฐานข้อมูลเชิงสัมพันธ์</div>
+        <div class="lang-detail" id="detail-14">
+          <h4>รายละเอียด & หน้าที่</h4>
+          <ol>
+            <li>พื้นฐาน: คำสั่ง SELECT/INSERT/UPDATE/DELETE</li>
+            <li>สภาพแวดล้อม: RDBMS เช่น MySQL, PostgreSQL, SQL Server</li>
+            <li>เครื่องมือที่นิยม: pgAdmin, MySQL Workbench</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="lang-card" onclick="toggleDetail(15)">
+        <div class="lang-top"><div class="lang-title">R</div><div class="lang-meta">Statistics / Data Science</div></div>
+        <div class="lang-summary">ภาษาสำหรับสถิติและวิเคราะห์ข้อมูล นิยมในงานวิจัยและ data analysis</div>
+        <div class="lang-detail" id="detail-15">
+          <h4>รายละเอียด & หน้าที่</h4>
+          <ol>
+            <li>พื้นฐาน: มีฟังก์ชันสถิติและกราฟที่ทรงพลัง</li>
+            <li>สภาพแวดล้อม: RStudio, CRAN packages</li>
+            <li>เครื่องมือที่นิยม: ggplot2, dplyr</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="lang-card" onclick="toggleDetail(16)">
+        <div class="lang-top"><div class="lang-title">MATLAB</div><div class="lang-meta">Engineering / Numeric</div></div>
+        <div class="lang-summary">สภาพแวดล้อมและภาษาสำหรับคำนวณเชิงตัวเลขและการจำลองทางวิศวกรรม</div>
+        <div class="lang-detail" id="detail-16">
+          <h4>รายละเอียด & หน้าที่</h4>
+          <ol>
+            <li>พื้นฐาน: เน้น matrix operations และ numerical methods</li>
+            <li>สภาพแวดล้อม: MATLAB IDE</li>
+            <li>เครื่องมือที่นิยม: Simulink, toolboxes</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="lang-card" onclick="toggleDetail(17)">
+        <div class="lang-top"><div class="lang-title">Scala</div><div class="lang-meta">Data / JVM</div></div>
+        <div class="lang-summary">ภาษาที่รวม functional และ OOP ทำงานบน JVM นิยมในระบบ Big Data</div>
+        <div class="lang-detail" id="detail-17">
+          <h4>รายละเอียด & หน้าที่</h4>
+          <ol>
+            <li>พื้นฐาน: functional + OOP, รันบน JVM</li>
+            <li>สภาพแวดล้อม: Big Data (Spark)</li>
+            <li>เครื่องมือที่นิยม: Apache Spark, Akka</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="lang-card" onclick="toggleDetail(18)">
+        <div class="lang-top"><div class="lang-title">Perl</div><div class="lang-meta">Scripting / Text</div></div>
+        <div class="lang-summary">ภาษา scripting ที่เก่าแก่ เหมาะงาน text-processing และ system scripting</div>
+        <div class="lang-detail" id="detail-18">
+          <h4>รายละเอียด & หน้าที่</h4>
+          <ol>
+            <li>พื้นฐาน: แก้ปัญหา text processing ได้รวดเร็ว</li>
+            <li>สภาพแวดล้อม: Scripting, automation</li>
+            <li>เครื่องมือที่นิยม: CPAN modules</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="lang-card" onclick="toggleDetail(19)">
+        <div class="lang-top"><div class="lang-title">Shell / Bash</div><div class="lang-meta">Scripting / Ops</div></div>
+        <div class="lang-summary">คอมมานด์สคริปต์สำหรับระบบ Unix/Linux ใช้เขียนสคริปต์ดูแลระบบและ automation</div>
+        <div class="lang-detail" id="detail-19">
+          <h4>รายละเอียด & หน้าที่</h4>
+          <ol>
+            <li>พื้นฐาน: คำสั่ง shell, piping, scripting</li>
+            <li>สภาพแวดล้อม: Linux/Unix shell</li>
+            <li>เครื่องมือที่นิยม: bash, zsh</li>
+          </ol>
+        </div>
+      </div>
+
     </div>
   </section>
 
@@ -154,13 +367,18 @@
       header.style.top = scrollTop > lastScrollTop ? '-70px' : '0';
       lastScrollTop = scrollTop;
     });
-    function toggleMenu() {
-      dropdown.style.display = dropdown.style.display === 'flex' ? 'none' : 'flex';
-    }
+    function toggleMenu() { dropdown.style.display = dropdown.style.display === 'flex' ? 'none' : 'flex'; }
     function toggleDetail(index) {
       const detail = document.getElementById(`detail-${index}`);
-      detail.style.display = detail.style.display === 'block' ? 'none' : 'block';
+      if (!detail) return;
+      const isVisible = detail.style.display === 'block';
+      // hide any open details (accordion behavior)
+      document.querySelectorAll('.lang-detail').forEach(d => d.style.display = 'none');
+      detail.style.display = isVisible ? 'none' : 'block';
+      // scroll into view for small screens
+      if (!isVisible) detail.parentElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
+
     // Contact form handling
     const contactForm = document.getElementById('contactForm');
     const formResult = document.getElementById('formResult');
