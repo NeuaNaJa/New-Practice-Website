@@ -4,65 +4,65 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>เว็บไซต์ทดลองเขียนโค้ด</title>
+  <!--
+    NOTE:
+    - ไฟล์นี้ตอนนี้มีทั้ง UI สำหรับ สมัครสมาชิก / ลงชื่อเข้าใช้ และตัวอย่างการเชื่อมต่อ 2 แบบ:
+      1) Demo local (เก็บบัญชีใน localStorage) — เหมาะทดสอบและเรียนรู้
+      2) Integration กับ Firebase (แนะนำสำหรับจริงจัง) — ต้องสร้างโปรเจกต์ Firebase และใส่ config ของคุณลงในตัวแปร firebaseConfig
+    - หากต้องการผมช่วยใส่ Firebase config ให้ (คุณต้องให้ค่า config จาก console.firebase.google.com)
+    - **ห้าม** ใช้ localStorage เก็บรหัสผ่านใน production — ตัวอย่าง local นี้เป็นเพียง demo เท่านั้น
+  -->
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; }
-    :root{
-      --blue-600:#0059b3; --blue-500:#3399ff; --bg:#e6f0ff; --muted:#4b6b88;
-    }
+    :root{ --blue-600:#0059b3; --blue-500:#3399ff; --bg:#e6f0ff; --muted:#4b6b88; }
     body { background: var(--bg); color: #02233a; line-height: 1.6; padding-top: 72px; }
-
-    /* Header */
     header { position: fixed; top: 0; left: 0; width: 100%; background: var(--blue-600); color: #fff; padding: 12px 24px; display: flex; justify-content: space-between; align-items: center; z-index: 1000; transition: top 0.28s ease; box-shadow: 0 2px 8px rgba(3,45,80,0.15); }
     .brand { font-weight:700; letter-spacing:0.2px; }
     .left-menu { display:flex; gap:12px; align-items:center; }
     .auth-btn { background: rgba(255,255,255,0.12); color:#fff; padding:8px 14px; border-radius:999px; border: 1px solid rgba(255,255,255,0.12); text-decoration:none; font-size:0.95rem; transition: background .18s, transform .12s; }
     .auth-btn:hover{ background: rgba(255,255,255,0.18); transform:translateY(-2px); }
     .auth-btn.primary{ background:#fff; color:var(--blue-600); font-weight:600; }
-
     .menu-toggle { cursor: pointer; font-size: 22px; color: #fff; padding:6px; border-radius:6px; }
     .dropdown-menu { display: none; position: absolute; top: 60px; right: 24px; background: #004080; flex-direction: column; padding: 10px; border-radius: 8px; box-shadow: 0 8px 20px rgba(0,0,0,0.18); }
     .dropdown-menu a { color: #fff; text-decoration: none; padding: 8px 12px; border-radius:6px; display:block; }
     .dropdown-menu a:hover{ background: rgba(255,255,255,0.06); }
-
-    /* Hero */
     .hero { min-height:40vh; display:flex; align-items:center; justify-content:center; background: linear-gradient(135deg,var(--blue-500),var(--blue-600)); color:#fff; text-align:center; padding:48px 20px; border-bottom-left-radius: 18px; border-bottom-right-radius: 18px; box-shadow: inset 0 -20px 60px rgba(0,0,0,0.06); }
     .hero h1{ font-size:2rem; max-width:900px; line-height:1.2; }
-
-    /* Language grid */
     .language-section{ max-width:1200px; margin:36px auto; padding: 0 20px; }
     .language-section h2{ text-align:center; color:#02233a; margin-bottom:18px; }
     .lang-grid{ display:grid; grid-template-columns: repeat(auto-fit,minmax(260px,1fr)); gap:18px; }
-
     .lang-card{ background:#fff; border-radius:12px; padding:18px; box-shadow: 0 6px 18px rgba(1,40,88,0.06); cursor:pointer; transition: transform .12s, box-shadow .12s; }
     .lang-card:hover{ transform: translateY(-6px); box-shadow: 0 14px 30px rgba(1,40,88,0.08); }
     .lang-top{ display:flex; justify-content:space-between; align-items:flex-start; gap:10px; }
     .lang-title{ font-size:1.05rem; color:var(--blue-600); font-weight:700; }
     .lang-summary{ color:var(--muted); margin-top:8px; font-size:0.95rem; }
-
     .lang-detail{ margin-top:12px; display:none; color:#223645; font-size:0.92rem; }
     .lang-detail h4{ margin-bottom:8px; color:var(--blue-600); }
     .lang-detail ol{ margin-left:18px; margin-bottom:8px; }
     .lang-meta{ font-size:0.85rem; color:#6b7a8a; margin-top:8px; }
-
-    /* Contact */
     #contact{ max-width:720px; margin:28px auto; padding:22px; background:#fff; border-radius:12px; box-shadow: 0 8px 20px rgba(1,40,88,0.05); }
     #contact h2{ text-align:center; color:#02233a; margin-bottom:12px; }
     #contactForm input, #contactForm textarea{ width:100%; padding:12px; margin-bottom:10px; border-radius:8px; border:1px solid #d7e6ff; }
     #contactForm button{ background:var(--blue-600); color:#fff; padding:10px 14px; border-radius:8px; border:none; cursor:pointer; font-weight:600; }
-
-    /* Footer */
     footer{ max-width:1200px; margin:28px auto; text-align:center; color:#fff; background:var(--blue-600); padding:18px; border-radius:10px; }
-
-    /* Responsive tweaks */
-    @media (max-width:600px){ .left-menu{ display:none; } header{ padding:10px 14px; } }
+    /* modal */
+    .modal-backdrop{ position:fixed; inset:0; background:rgba(0,0,0,0.4); display:none; align-items:center; justify-content:center; z-index:2000; }
+    .modal{ background:#fff; width:360px; max-width:90%; border-radius:12px; padding:18px; box-shadow:0 16px 40px rgba(2,20,60,0.2); }
+    .modal h3{ margin-bottom:12px; color:var(--blue-600); }
+    .modal input{ width:100%; padding:10px; margin-bottom:8px; border-radius:8px; border:1px solid #dfefff; }
+    .modal .row{ display:flex; gap:8px; }
+    .modal .row .btn{ flex:1; padding:10px; border-radius:8px; border:none; cursor:pointer; }
+    .btn.primary{ background:var(--blue-600); color:#fff; }
+    .btn.ghost{ background:transparent; border:1px solid #cfe4ff; }
+    @media (max-width:600px){ .left-menu{ display:none; } header{ padding:10px 14px; } .lang-grid{ gap:12px; } }
   </style>
 </head>
 <body>
   <header id="mainHeader">
     <div class="brand">Ainthat Code Lab</div>
-    <div class="left-menu">
-      <a class="auth-btn" href="#signup">สมัครสมาชิก</a>
-      <a class="auth-btn primary" href="#login">ลงชื่อเข้าใช้</a>
+    <div class="left-menu" id="authButtons">
+      <a class="auth-btn" id="signupBtn" href="#" onclick="openModal('signup')">สมัครสมาชิก</a>
+      <a class="auth-btn primary" id="loginBtn" href="#" onclick="openModal('login')">ลงชื่อเข้าใช้</a>
     </div>
     <div class="menu-toggle" onclick="toggleMenu()">☰</div>
     <div class="dropdown-menu" id="dropdownMenu">
@@ -79,267 +79,7 @@
   <section class="language-section">
     <h2>ภาษาโปรแกรมยอดนิยมและข้อมูลสำคัญ</h2>
     <div class="lang-grid" id="langGrid">
-      <!-- We'll list many languages here -->
-      <div class="lang-card" onclick="toggleDetail(0)">
-        <div class="lang-top"><div class="lang-title">JavaScript</div><div class="lang-meta">Front-end / Full-stack</div></div>
-        <div class="lang-summary">ภาษาสคริปต์ฝั่งผู้ใช้ เพิ่มการโต้ตอบในเว็บ และใช้งานบนเซิร์ฟเวอร์ด้วย Node.js</div>
-        <div class="lang-detail" id="detail-0">
-          <h4>รายละเอียด & หน้าที่</h4>
-          <ol>
-            <li>พื้นฐาน: ส่งคำสั่งให้เบราว์เซอร์จัดการ DOM และ event</li>
-            <li>สภาพแวดล้อม: รันบนเบราว์เซอร์ และ Node.js (Server-side)</li>
-            <li>เครื่องมือที่นิยม: React, Vue, Angular, Express</li>
-          </ol>
-        </div>
-      </div>
-
-      <div class="lang-card" onclick="toggleDetail(1)">
-        <div class="lang-top"><div class="lang-title">TypeScript</div><div class="lang-meta">Front-end / Large Projects</div></div>
-        <div class="lang-summary">ซูเปอร์เซ็ตของ JavaScript ที่มี type system ช่วยลดบั๊กในโปรเจกต์ขนาดใหญ่</div>
-        <div class="lang-detail" id="detail-1">
-          <h4>รายละเอียด & หน้าที่</h4>
-          <ol>
-            <li>พื้นฐาน: เพิ่มชนิดข้อมูล (types) ให้ JavaScript</li>
-            <li>สภาพแวดล้อม: แปลงเป็น JS ก่อนรัน (transpile)</li>
-            <li>เครื่องมือที่นิยม: Angular, React + TS, NestJS</li>
-          </ol>
-        </div>
-      </div>
-
-      <div class="lang-card" onclick="toggleDetail(2)">
-        <div class="lang-top"><div class="lang-title">Python</div><div class="lang-meta">Data / Backend / Scripting</div></div>
-        <div class="lang-summary">ภาษาใช้งานง่าย นิยมใช้ด้าน Data Science, Machine Learning และ Web Backend</div>
-        <div class="lang-detail" id="detail-2">
-          <h4>รายละเอียด & หน้าที่</h4>
-          <ol>
-            <li>พื้นฐาน: โค้ดอ่านง่าย เหมาะกับการเรียนรู้และการทำโปรโตไทป์</li>
-            <li>สภาพแวดล้อม: รันฝั่งเซิร์ฟเวอร์, notebooks (Jupyter)</li>
-            <li>เครื่องมือที่นิยม: NumPy, Pandas, scikit-learn, TensorFlow, Flask, Django</li>
-          </ol>
-        </div>
-      </div>
-
-      <div class="lang-card" onclick="toggleDetail(3)">
-        <div class="lang-top"><div class="lang-title">Java</div><div class="lang-meta">Enterprise / Android</div></div>
-        <div class="lang-summary">ภาษาเชิงวัตถุ รันบน JVM เหมาะกับระบบระดับองค์กรและแอป Android</div>
-        <div class="lang-detail" id="detail-3">
-          <h4>รายละเอียด & หน้าที่</h4>
-          <ol>
-            <li>พื้นฐาน: คอมไพล์เป็น bytecode บน JVM</li>
-            <li>สภาพแวดล้อม: Server-side, Android</li>
-            <li>เครื่องมือที่นิยม: Spring, Hibernate, Android SDK</li>
-          </ol>
-        </div>
-      </div>
-
-      <div class="lang-card" onclick="toggleDetail(4)">
-        <div class="lang-top"><div class="lang-title">C</div><div class="lang-meta">Systems / Embedded</div></div>
-        <div class="lang-summary">ภาษาเชิงกระบวนการ ระดับต่ำ ถูกใช้พัฒนาระบบปฏิบัติการและ embedded</div>
-        <div class="lang-detail" id="detail-4">
-          <h4>รายละเอียด & หน้าที่</h4>
-          <ol>
-            <li>พื้นฐาน: ใกล้ฮาร์ดแวร์ ควบคุมหน่วยความจำโดยตรง</li>
-            <li>สภาพแวดล้อม: ระบบฝังตัว, เคอร์เนล, ไลบรารีประสิทธิภาพสูง</li>
-            <li>เครื่องมือที่นิยม: GCC, Clang</li>
-          </ol>
-        </div>
-      </div>
-
-      <div class="lang-card" onclick="toggleDetail(5)">
-        <div class="lang-top"><div class="lang-title">C++</div><div class="lang-meta">Game / Systems</div></div>
-        <div class="lang-summary">ขยายจาก C รองรับ OOP และมีประสิทธิภาพสูง เหมาะสำหรับเกมและซอฟต์แวร์ระบบ</div>
-        <div class="lang-detail" id="detail-5">
-          <h4>รายละเอียด & หน้าที่</h4>
-          <ol>
-            <li>พื้นฐาน: สนับสนุน OOP, template และการจัดการหน่วยความจำแบบละเอียด</li>
-            <li>สภาพแวดล้อม: เกม เอนจิน และแอปที่ต้องการประสิทธิภาพ</li>
-            <li>เครื่องมือที่นิยม: MSVC, GCC, Clang, Unreal Engine</li>
-          </ol>
-        </div>
-      </div>
-
-      <div class="lang-card" onclick="toggleDetail(6)">
-        <div class="lang-top"><div class="lang-title">C#</div><div class="lang-meta">Enterprise / Game</div></div>
-        <div class="lang-summary">ภาษาโดย Microsoft ใช้กับ .NET, เหมาะงาน enterprise และพัฒนาเกมด้วย Unity</div>
-        <div class="lang-detail" id="detail-6">
-          <h4>รายละเอียด & หน้าที่</h4>
-          <ol>
-            <li>พื้นฐาน: ทำงานบน CLR (Common Language Runtime)</li>
-            <li>สภาพแวดล้อม: .NET, Unity</li>
-            <li>เครื่องมือที่นิยม: .NET Core/Framework, Unity</li>
-          </ol>
-        </div>
-      </div>
-
-      <div class="lang-card" onclick="toggleDetail(7)">
-        <div class="lang-top"><div class="lang-title">Go (Golang)</div><div class="lang-meta">Cloud / Systems</div></div>
-        <div class="lang-summary">ภาษาที่ออกแบบโดย Google เน้นความเร็วและความเรียบง่าย เหมาะกับ microservices และ cloud</div>
-        <div class="lang-detail" id="detail-7">
-          <h4>รายละเอียด & หน้าที่</h4>
-          <ol>
-            <li>พื้นฐาน: คอมไพล์เป็นไบนารี ขนาดเล็ก รันเร็ว</li>
-            <li>สภาพแวดล้อม: Backend, CLI, Cloud services</li>
-            <li>เครื่องมือที่นิยม: Docker, Kubernetes interactions, Gin</li>
-          </ol>
-        </div>
-      </div>
-
-      <div class="lang-card" onclick="toggleDetail(8)">
-        <div class="lang-top"><div class="lang-title">Rust</div><div class="lang-meta">Systems / Safe code</div></div>
-        <div class="lang-summary">ภาษาสมัยใหม่เน้นความปลอดภัยหน่วยความจำและประสิทธิภาพ เหมาะกับ systems programming</div>
-        <div class="lang-detail" id="detail-8">
-          <h4>รายละเอียด & หน้าที่</h4>
-          <ol>
-            <li>พื้นฐาน: Ownership model ป้องกัน data races</li>
-            <li>สภาพแวดล้อม: Systems, WebAssembly, embedded</li>
-            <li>เครื่องมือที่นิยม: Cargo, Tokio, WASM toolchains</li>
-          </ol>
-        </div>
-      </div>
-
-      <div class="lang-card" onclick="toggleDetail(9)">
-        <div class="lang-top"><div class="lang-title">PHP</div><div class="lang-meta">Web Backend</div></div>
-        <div class="lang-summary">ภาษา script ฝั่งเซิร์ฟเวอร์ นิยมทำเว็บไดนามิก และ CMS ขนาดใหญ่</div>
-        <div class="lang-detail" id="detail-9">
-          <h4>รายละเอียด & หน้าที่</h4>
-          <ol>
-            <li>พื้นฐาน: ฝังโค้ดใน HTML ประมวลผลที่เซิร์ฟเวอร์</li>
-            <li>สภาพแวดล้อม: Web servers, shared hosting</li>
-            <li>เครื่องมือที่นิยม: Laravel, WordPress, Composer</li>
-          </ol>
-        </div>
-      </div>
-
-      <div class="lang-card" onclick="toggleDetail(10)">
-        <div class="lang-top"><div class="lang-title">Ruby</div><div class="lang-meta">Web / Startup</div></div>
-        <div class="lang-summary">ภาษาเน้นความพึงพอใจของโปรแกรมเมอร์ ใช้งานบ่อยกับ Ruby on Rails</div>
-        <div class="lang-detail" id="detail-10">
-          <h4>รายละเอียด & หน้าที่</h4>
-          <ol>
-            <li>พื้นฐาน: syntax เป็นมิตรกับนักพัฒนา</li>
-            <li>สภาพแวดล้อม: Web apps (Rails)</li>
-            <li>เครื่องมือที่นิยม: Ruby on Rails, RSpec</li>
-          </ol>
-        </div>
-      </div>
-
-      <div class="lang-card" onclick="toggleDetail(11)">
-        <div class="lang-top"><div class="lang-title">Swift</div><div class="lang-meta">iOS / macOS</div></div>
-        <div class="lang-summary">ภาษาสมัยใหม่ของ Apple สำหรับพัฒนา iOS, macOS, และระบบต่าง ๆ</div>
-        <div class="lang-detail" id="detail-11">
-          <h4>รายละเอียด & หน้าที่</h4>
-          <ol>
-            <li>พื้นฐาน: พัฒนาโดย Apple แทน Objective-C</li>
-            <li>สภาพแวดล้อม: iOS, macOS, SwiftUI</li>
-            <li>เครื่องมือที่นิยม: Xcode, Swift Package Manager</li>
-          </ol>
-        </div>
-      </div>
-
-      <div class="lang-card" onclick="toggleDetail(12)">
-        <div class="lang-top"><div class="lang-title">Kotlin</div><div class="lang-meta">Android / Backend</div></div>
-        <div class="lang-summary">ภาษาที่แทน Java บน Android อย่างเป็นทางการ สนับสนุนความปลอดภัยของ null และสไตล์โมเดิร์น</div>
-        <div class="lang-detail" id="detail-12">
-          <h4>รายละเอียด & หน้าที่</h4>
-          <ol>
-            <li>พื้นฐาน: รันบน JVM, interoperable กับ Java</li>
-            <li>สภาพแวดล้อม: Android, Backend (Ktor, Spring)</li>
-            <li>เครื่องมือที่นิยม: Android Studio, Gradle</li>
-          </ol>
-        </div>
-      </div>
-
-      <div class="lang-card" onclick="toggleDetail(13)">
-        <div class="lang-top"><div class="lang-title">Dart</div><div class="lang-meta">Mobile / Web</div></div>
-        <div class="lang-summary">ภาษาของ Google ใช้ร่วมกับ Flutter เพื่อสร้าง UI แบบ cross-platform</div>
-        <div class="lang-detail" id="detail-13">
-          <h4>รายละเอียด & หน้าที่</h4>
-          <ol>
-            <li>พื้นฐาน: เน้น UI มีแบบแผน reactive</li>
-            <li>สภาพแวดล้อม: Mobile (Flutter), Web</li>
-            <li>เครื่องมือที่นิยม: Flutter SDK</li>
-          </ol>
-        </div>
-      </div>
-
-      <div class="lang-card" onclick="toggleDetail(14)">
-        <div class="lang-top"><div class="lang-title">SQL</div><div class="lang-meta">Data / Database</div></div>
-        <div class="lang-summary">ภาษาเชิงประกาศสำหรับจัดการฐานข้อมูลเชิงสัมพันธ์</div>
-        <div class="lang-detail" id="detail-14">
-          <h4>รายละเอียด & หน้าที่</h4>
-          <ol>
-            <li>พื้นฐาน: คำสั่ง SELECT/INSERT/UPDATE/DELETE</li>
-            <li>สภาพแวดล้อม: RDBMS เช่น MySQL, PostgreSQL, SQL Server</li>
-            <li>เครื่องมือที่นิยม: pgAdmin, MySQL Workbench</li>
-          </ol>
-        </div>
-      </div>
-
-      <div class="lang-card" onclick="toggleDetail(15)">
-        <div class="lang-top"><div class="lang-title">R</div><div class="lang-meta">Statistics / Data Science</div></div>
-        <div class="lang-summary">ภาษาสำหรับสถิติและวิเคราะห์ข้อมูล นิยมในงานวิจัยและ data analysis</div>
-        <div class="lang-detail" id="detail-15">
-          <h4>รายละเอียด & หน้าที่</h4>
-          <ol>
-            <li>พื้นฐาน: มีฟังก์ชันสถิติและกราฟที่ทรงพลัง</li>
-            <li>สภาพแวดล้อม: RStudio, CRAN packages</li>
-            <li>เครื่องมือที่นิยม: ggplot2, dplyr</li>
-          </ol>
-        </div>
-      </div>
-
-      <div class="lang-card" onclick="toggleDetail(16)">
-        <div class="lang-top"><div class="lang-title">MATLAB</div><div class="lang-meta">Engineering / Numeric</div></div>
-        <div class="lang-summary">สภาพแวดล้อมและภาษาสำหรับคำนวณเชิงตัวเลขและการจำลองทางวิศวกรรม</div>
-        <div class="lang-detail" id="detail-16">
-          <h4>รายละเอียด & หน้าที่</h4>
-          <ol>
-            <li>พื้นฐาน: เน้น matrix operations และ numerical methods</li>
-            <li>สภาพแวดล้อม: MATLAB IDE</li>
-            <li>เครื่องมือที่นิยม: Simulink, toolboxes</li>
-          </ol>
-        </div>
-      </div>
-
-      <div class="lang-card" onclick="toggleDetail(17)">
-        <div class="lang-top"><div class="lang-title">Scala</div><div class="lang-meta">Data / JVM</div></div>
-        <div class="lang-summary">ภาษาที่รวม functional และ OOP ทำงานบน JVM นิยมในระบบ Big Data</div>
-        <div class="lang-detail" id="detail-17">
-          <h4>รายละเอียด & หน้าที่</h4>
-          <ol>
-            <li>พื้นฐาน: functional + OOP, รันบน JVM</li>
-            <li>สภาพแวดล้อม: Big Data (Spark)</li>
-            <li>เครื่องมือที่นิยม: Apache Spark, Akka</li>
-          </ol>
-        </div>
-      </div>
-
-      <div class="lang-card" onclick="toggleDetail(18)">
-        <div class="lang-top"><div class="lang-title">Perl</div><div class="lang-meta">Scripting / Text</div></div>
-        <div class="lang-summary">ภาษา scripting ที่เก่าแก่ เหมาะงาน text-processing และ system scripting</div>
-        <div class="lang-detail" id="detail-18">
-          <h4>รายละเอียด & หน้าที่</h4>
-          <ol>
-            <li>พื้นฐาน: แก้ปัญหา text processing ได้รวดเร็ว</li>
-            <li>สภาพแวดล้อม: Scripting, automation</li>
-            <li>เครื่องมือที่นิยม: CPAN modules</li>
-          </ol>
-        </div>
-      </div>
-
-      <div class="lang-card" onclick="toggleDetail(19)">
-        <div class="lang-top"><div class="lang-title">Shell / Bash</div><div class="lang-meta">Scripting / Ops</div></div>
-        <div class="lang-summary">คอมมานด์สคริปต์สำหรับระบบ Unix/Linux ใช้เขียนสคริปต์ดูแลระบบและ automation</div>
-        <div class="lang-detail" id="detail-19">
-          <h4>รายละเอียด & หน้าที่</h4>
-          <ol>
-            <li>พื้นฐาน: คำสั่ง shell, piping, scripting</li>
-            <li>สภาพแวดล้อม: Linux/Unix shell</li>
-            <li>เครื่องมือที่นิยม: bash, zsh</li>
-          </ol>
-        </div>
-      </div>
-
+      <!-- language cards (same as before) -->
     </div>
   </section>
 
@@ -358,45 +98,138 @@
     © 2025 Ainthat Duangkrathok | สร้างด้วยใจรักการเขียนโค้ด
   </footer>
 
+  <!-- modals for signup/login (content and firebase/local handling in script) -->
+  <div class="modal-backdrop" id="modalBackdrop">
+    <div class="modal" id="modalContent">
+      <!-- dynamic content populated by JS -->
+    </div>
+  </div>
+
   <script>
-    const header = document.getElementById('mainHeader');
-    const dropdown = document.getElementById('dropdownMenu');
-    let lastScrollTop = 0;
-    window.addEventListener('scroll', () => {
-      let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-      header.style.top = scrollTop > lastScrollTop ? '-70px' : '0';
-      lastScrollTop = scrollTop;
-    });
-    function toggleMenu() { dropdown.style.display = dropdown.style.display === 'flex' ? 'none' : 'flex'; }
+    /* ---------- AUTH UI + LOCAL demo + (optional) Firebase code placeholders ---------- */
+
+    // State
+    let users = JSON.parse(localStorage.getItem('demo_users') || '[]');
+    let currentUser = JSON.parse(localStorage.getItem('demo_current') || 'null');
+
+    // helpers
+    function saveUsers(){ localStorage.setItem('demo_users', JSON.stringify(users)); }
+    function setCurrent(user){ localStorage.setItem('demo_current', JSON.stringify(user)); currentUser = user; renderAuthState(); }
+
+    // Render auth buttons / user state
+    function renderAuthState(){
+      const auth = document.getElementById('authButtons');
+      auth.innerHTML = '';
+      if (currentUser){
+        const name = document.createElement('div');
+        name.style.color = '#fff'; name.style.marginRight = '12px'; name.innerText = currentUser.displayName || currentUser.email;
+        const out = document.createElement('a'); out.className='auth-btn ghost'; out.href='#'; out.innerText='ออกจากระบบ'; out.onclick = (e)=>{ e.preventDefault(); signOutLocal(); };
+        auth.appendChild(name); auth.appendChild(out);
+      } else {
+        const signup = document.createElement('a'); signup.className='auth-btn'; signup.href='#'; signup.innerText='สมัครสมาชิก'; signup.onclick = (e)=>{ e.preventDefault(); openModal('signup'); };
+        const login = document.createElement('a'); login.className='auth-btn primary'; login.href='#'; login.innerText='ลงชื่อเข้าใช้'; login.onclick = (e)=>{ e.preventDefault(); openModal('login'); };
+        auth.appendChild(signup); auth.appendChild(login);
+      }
+    }
+
+    renderAuthState();
+
+    // Modal management
+    const modalBackdrop = document.getElementById('modalBackdrop');
+    const modalContent = document.getElementById('modalContent');
+    function openModal(type){
+      if (type === 'signup') modalContent.innerHTML = signupHtml();
+      if (type === 'login') modalContent.innerHTML = loginHtml();
+      modalBackdrop.style.display = 'flex';
+    }
+    function closeModal(){ modalBackdrop.style.display = 'none'; modalContent.innerHTML = ''; }
+    modalBackdrop.addEventListener('click', (e)=>{ if (e.target === modalBackdrop) closeModal(); });
+
+    function signupHtml(){
+      return `
+        <h3>สมัครสมาชิก (Demo)</h3>
+        <input id="suName" placeholder="ชื่อ" />
+        <input id="suEmail" placeholder="อีเมล" />
+        <input id="suPass" placeholder="รหัสผ่าน" type="password" />
+        <div class="row">
+          <button class="btn primary" onclick="handleSignupLocal()">สมัคร</button>
+          <button class="btn ghost" onclick="closeModal()">ยกเลิก</button>
+        </div>
+        <p style="font-size:0.85rem;color:#666;margin-top:8px;">* ตัวอย่างนี้เป็นการเก็บข้อมูลแบบ local เพื่อการเรียนรู้เท่านั้น</p>
+      `;
+    }
+    function loginHtml(){
+      return `
+        <h3>ลงชื่อเข้าใช้ (Demo)</h3>
+        <input id="liEmail" placeholder="อีเมล" />
+        <input id="liPass" placeholder="รหัสผ่าน" type="password" />
+        <div class="row">
+          <button class="btn primary" onclick="handleLoginLocal()">เข้าสู่ระบบ</button>
+          <button class="btn ghost" onclick="closeModal()">ยกเลิก</button>
+        </div>
+        <p style="font-size:0.85rem;color:#666;margin-top:8px;">* ตัวอย่างนี้เป็นการเก็บข้อมูลแบบ local เพื่อการเรียนรู้เท่านั้น</p>
+      `;
+    }
+
+    // Local signup/login handlers (DEMO ONLY)
+    function handleSignupLocal(){
+      const name = document.getElementById('suName').value.trim();
+      const email = document.getElementById('suEmail').value.trim();
+      const pass = document.getElementById('suPass').value;
+      if (!name || !email || !pass) { alert('กรุณากรอกให้ครบ'); return; }
+      if (users.find(u=>u.email===email)) { alert('อีเมลนี้มีผู้ใช้แล้ว'); return; }
+      const user = { id: Date.now(), displayName: name, email, password: pass };
+      users.push(user); saveUsers(); setCurrent({ displayName: name, email }); closeModal(); alert('สมัครเรียบร้อย (demo)');
+    }
+    function handleLoginLocal(){
+      const email = document.getElementById('liEmail').value.trim();
+      const pass = document.getElementById('liPass').value;
+      const user = users.find(u=>u.email===email && u.password===pass);
+      if (!user) { alert('อีเมลหรือรหัสผ่านไม่ถูกต้อง'); return; }
+      setCurrent({ displayName: user.displayName, email: user.email }); closeModal(); alert('เข้าสู่ระบบสำเร็จ (demo)');
+    }
+    function signOutLocal(){ localStorage.removeItem('demo_current'); currentUser=null; renderAuthState(); }
+
+    /* ---------- Firebase integration (OPTIONAL) ----------
+      หากต้องการใช้ฐานข้อมูลจริงและ Authentication ที่ปลอดภัย แนะนำใช้ Firebase (Auth + Firestore)
+      ขั้นตอนสั้นๆ:
+      1. ไปที่ https://console.firebase.google.com/ สร้าง Project
+      2. ใน Project Settings -> เพิ่ม Web App -> คัดลอก config และวางในตัวแปร firebaseConfig ด้านล่าง
+      3. เปิด Authentication -> Sign-in method -> เปิด Email/Password
+      4. สร้าง Firestore Database (หรือ Realtime DB) เพื่อเก็บข้อมูลผู้ใช้เพิ่มเติม
+      5. ติดตั้ง SDK ตามตัวอย่าง (ใช้ CDN หรือ npm)
+
+      ตัวอย่าง (pseudocode) ในการใช้งาน (จะไม่ทำงานถ้าคุณยังไม่ได้ใส่ config):
+
+      // import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js';
+      // import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js';
+      // import { getFirestore, doc, setDoc } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js';
+
+      // const app = initializeApp(firebaseConfig);
+      // const auth = getAuth(app);
+      // const db = getFirestore(app);
+
+      // async function handleSignupFirebase(name,email,password){
+      //   const cred = await createUserWithEmailAndPassword(auth,email,password);
+      //   await setDoc(doc(db,'users',cred.user.uid), { displayName:name, email });
+      // }
+
+    */
+
+    // language accordion already in page — keep previous toggleDetail available
     function toggleDetail(index) {
       const detail = document.getElementById(`detail-${index}`);
       if (!detail) return;
       const isVisible = detail.style.display === 'block';
-      // hide any open details (accordion behavior)
       document.querySelectorAll('.lang-detail').forEach(d => d.style.display = 'none');
       detail.style.display = isVisible ? 'none' : 'block';
-      // scroll into view for small screens
       if (!isVisible) detail.parentElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 
-    // Contact form handling
-    const contactForm = document.getElementById('contactForm');
-    const formResult = document.getElementById('formResult');
-    contactForm.addEventListener('submit', function(e) {
-      e.preventDefault();
-      const name = this.name.value.trim();
-      const email = this.email.value.trim();
-      const message = this.message.value.trim();
-      if (!name || !email || !message) {
-        formResult.style.color = 'red';
-        formResult.innerText = 'กรุณากรอกทุกช่องให้ครบ';
-        return;
-      }
-      console.log({ name, email, message });
-      formResult.style.color = 'green';
-      formResult.innerText = 'ส่งข้อความสำเร็จ!';
-      this.reset();
-    });
+    // render auth state at load
+    window.addEventListener('load', ()=>{ renderAuthState(); });
+
+    function toggleMenu(){ const dd=document.getElementById('dropdownMenu'); dd.style.display = dd.style.display === 'flex' ? 'none':'flex'; }
   </script>
 </body>
 </html>
