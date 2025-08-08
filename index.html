@@ -5,131 +5,36 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>เว็บไซต์ทดลองเขียนโค้ด</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: sans-serif;
-    }
-    body {
-      background: #f4f4f4;
-      line-height: 1.6;
-    }
-
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
+    body { background: #f4f4f4; line-height: 1.6; }
     /* Header */
-    header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      background: #333;
-      color: #fff;
-      padding: 10px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      z-index: 1000;
-      transition: top 0.3s;
-    }
-    .left-menu a {
-      color: #fff;
-      text-decoration: none;
-      margin-right: 15px;
-    }
-    .menu-toggle {
-      cursor: pointer;
-      font-size: 24px;
-    }
-    .dropdown-menu {
-      display: none;
-      position: absolute;
-      top: 60px;
-      right: 20px;
-      background: #444;
-      flex-direction: column;
-      padding: 10px;
-      border-radius: 5px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    }
-    .dropdown-menu a {
-      color: #fff;
-      text-decoration: none;
-      padding: 8px 0;
-    }
-
+    header { position: fixed; top: 0; left: 0; width: 100%; background: #333; color: #fff; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; z-index: 1000; transition: top 0.3s; }
+    .left-menu a { color: #fff; text-decoration: none; margin-right: 15px; }
+    .menu-toggle { cursor: pointer; font-size: 24px; }
+    .dropdown-menu { display: none; position: absolute; top: 60px; right: 20px; background: #444; flex-direction: column; padding: 10px; border-radius: 5px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
+    .dropdown-menu a { color: #fff; text-decoration: none; padding: 8px 0; }
     /* Hero Section */
-    .hero {
-      height: 60vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: linear-gradient(135deg, #6b73ff, #000dff);
-      color: #fff;
-      text-align: center;
-      padding-top: 60px;
-      animation: fadeIn 1s ease;
-    }
-    .hero h1 {
-      font-size: 2.5rem;
-      animation: slideDown 1s ease;
-    }
-
+    .hero { height: 60vh; display: flex; justify-content: center; align-items: center; background: linear-gradient(135deg, #6b73ff, #000dff); color: #fff; text-align: center; padding-top: 60px; animation: fadeIn 1s ease; }
+    .hero h1 { font-size: 2.5rem; animation: slideDown 1s ease; }
     /* Content Cards */
-    .content {
-      max-width: 1200px;
-      margin: 40px auto;
-      padding: 0 20px;
-    }
-    .content h2 {
-      text-align: center;
-      margin-bottom: 20px;
-      color: #333;
-    }
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
-    }
-    .card {
-      background: #fff;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      opacity: 0;
-      transform: translateY(20px);
-      animation: fadeIn 0.6s ease forwards;
-    }
+    .content { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
+    .content h2 { text-align: center; margin-bottom: 20px; color: #333; }
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+    .card { background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); opacity: 0; transform: translateY(20px); animation: fadeIn 0.6s ease forwards; }
     .card:nth-child(1) { animation-delay: 0.2s; }
     .card:nth-child(2) { animation-delay: 0.4s; }
     .card:nth-child(3) { animation-delay: 0.6s; }
-    .card h3 {
-      margin-bottom: 10px;
-      color: #000dff;
-    }
-    .card p {
-      color: #555;
-      font-size: 0.95rem;
-    }
-
+    .card h3 { margin-bottom: 10px; color: #000dff; }
+    .card p { color: #555; font-size: 0.95rem; }
+    /* Interactive Section */
+    .interactive { max-width: 600px; margin: 40px auto; padding: 20px; background: #fff; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    .interactive input, .interactive button { padding: 10px; font-size: 1rem; margin-right: 10px; }
+    .interactive button { background: #000dff; color: #fff; border: none; border-radius: 5px; cursor: pointer; }
     /* Footer */
-    footer {
-      background: #333;
-      color: #fff;
-      text-align: center;
-      padding: 20px;
-      margin-top: 40px;
-      animation: fadeIn 1s ease;
-    }
-
+    footer { background: #333; color: #fff; text-align: center; padding: 20px; margin-top: 40px; animation: fadeIn 1s ease; }
     /* Animations */
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    @keyframes slideDown {
-      from { transform: translateY(-20px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes slideDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
   </style>
 </head>
 <body>
@@ -145,14 +50,12 @@
       <a href="#">แจ้งปัญหา</a>
     </div>
   </header>
-
   <section class="hero">
     <h1>ยินดีต้อนรับเข้าสู่เว็บไซต์ทดลองเขียนโค้ด</h1>
   </section>
-
   <section class="content">
     <h2>บทเรียนเขียนโปรแกรมเบื้องต้น</h2>
-    <div class="cards">
+    <div class="cards" id="cardsContainer">
       <div class="card">
         <h3>HTML & CSS</h3>
         <p>เรียนรู้โครงสร้างพื้นฐานของหน้าเว็บ และการจัดแต่งสไตล์ด้วย CSS เพื่อสร้างเว็บที่สวยงาม</p>
@@ -167,28 +70,35 @@
       </div>
     </div>
   </section>
-
+  <section class="interactive">
+    <h2>เพิ่มบทเรียนใหม่</h2>
+    <input type="text" id="lessonInput" placeholder="ชื่อบทเรียนใหม่..." />
+    <button onclick="addLesson()">เพิ่ม</button>
+  </section>
   <footer>
     อินทัช ดวงกระโทก | Ainthat Duangkrathok
   </footer>
-
   <script>
     let lastScrollTop = 0;
     const header = document.getElementById('mainHeader');
     const dropdown = document.getElementById('dropdownMenu');
-
+    const cardsContainer = document.getElementById('cardsContainer');
     window.addEventListener('scroll', function() {
       let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-      if (scrollTop > lastScrollTop) {
-        header.style.top = "-70px";
-      } else {
-        header.style.top = "0";
-      }
+      if (scrollTop > lastScrollTop) { header.style.top = "-70px"; } else { header.style.top = "0"; }
       lastScrollTop = scrollTop;
     });
-
-    function toggleMenu() {
-      dropdown.style.display = dropdown.style.display === 'flex' ? 'none' : 'flex';
+    function toggleMenu() { dropdown.style.display = dropdown.style.display === 'flex' ? 'none' : 'flex'; }
+    function addLesson() {
+      const title = document.getElementById('lessonInput').value.trim();
+      if (!title) return;
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `<h3>${title}</h3><p>บทเรียนใหม่ที่เพิ่มขึ้นมา</p>`;
+      cardsContainer.appendChild(card);
+      // Trigger fade-in
+      setTimeout(() => { card.style.opacity = '1'; card.style.transform = 'translateY(0)'; }, 100);
+      document.getElementById('lessonInput').value = '';
     }
   </script>
 </body>
