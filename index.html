@@ -6,7 +6,7 @@
   <title>เว็บไซต์ทดลองเขียนโค้ด</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
-    body { background: #f4f4f4; line-height: 1.6; padding-top: 60px; }
+    body { background: #f4f4f4; color: #333; line-height: 1.6; padding-top: 60px; }
     /* Header */
     header { position: fixed; top: 0; left: 0; width: 100%; background: #333; color: #fff; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; z-index: 1000; transition: top 0.3s; }
     .left-menu a { color: #fff; text-decoration: none; margin-right: 15px; }
@@ -14,26 +14,15 @@
     .dropdown-menu { display: none; position: absolute; top: 60px; right: 20px; background: #444; flex-direction: column; padding: 10px; border-radius: 5px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
     .dropdown-menu a { color: #fff; text-decoration: none; padding: 8px 0; }
     /* Hero Section */
-    .hero { height: 60vh; display: flex; justify-content: center; align-items: center; background: linear-gradient(135deg, #6b73ff, #000dff); color: #fff; text-align: center; animation: fadeIn 1s ease; }
+    .hero { height: 50vh; display: flex; justify-content: center; align-items: center; background: linear-gradient(135deg, #6b73ff, #000dff); color: #fff; text-align: center; animation: fadeIn 1s ease; }
     .hero h1 { font-size: 2.5rem; animation: slideDown 1s ease; }
-    /* Content Cards */
-    .content { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
-    .content h2 { text-align: center; margin-bottom: 20px; color: #333; }
-    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
-    .card { background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); opacity: 0; transform: translateY(20px); animation: fadeIn 0.6s ease forwards; }
-    .card h3 { margin-bottom: 10px; color: #000dff; }
-    .card p { color: #555; font-size: 0.95rem; }
-    /* Language Table Section */
-    .language-section { max-width: 800px; margin: 40px auto; padding: 20px; background: #fff; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-    .language-section input, .language-section button { display: inline-block; padding: 10px; font-size: 1rem; margin-right: 10px; margin-bottom: 10px; }
-    .language-section button { background: #000dff; color: #fff; border: none; border-radius: 5px; cursor: pointer; }
-    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-    th, td { border: 1px solid #ccc; padding: 10px; text-align: left; }
-    th { background: #f0f0f0; }
-    /* Contact Section */
-    #contact { max-width: 600px; margin: 40px auto; padding: 20px; background: #fff; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-    #contactForm input, #contactForm textarea, #contactForm button { display: block; width: 100%; margin-bottom: 10px; padding: 10px; font-size: 1rem; }
-    #contactForm button { background: #000dff; color: #fff; border: none; border-radius: 5px; cursor: pointer; }
+    /* Language Cards Section */
+    .language-section { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
+    .lang-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+    .lang-card { background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); cursor: pointer; transition: transform 0.2s; }
+    .lang-card:hover { transform: translateY(-5px); }
+    .lang-title { font-size: 1.2rem; color: #000dff; margin-bottom: 10px; }
+    .lang-detail { display: none; margin-top: 10px; color: #555; font-size: 0.95rem; }
     /* Footer */
     footer { background: #333; color: #fff; text-align: center; padding: 20px; margin-top: 40px; animation: fadeIn 1s ease; }
     /* Animations */
@@ -56,41 +45,39 @@
   </header>
 
   <section class="hero">
-    <h1>ยินดีต้อนรับเข้าสู่เว็บไซต์ทดลองเขียนโค้ด</h1>
-  </section>
-
-  <section class="content">
-    <h2>บทเรียนเขียนโปรแกรมเบื้องต้น</h2>
-    <div class="cards" id="cardsContainer"></div>
+    <h1>ยินดีต้อนรับสู่เว็บไซต์ทดลองเขียนโค้ด</h1>
   </section>
 
   <section class="language-section">
-    <h2>ใส่ข้อมูลภาษาโปรแกรม</h2>
-    <input type="text" id="langName" placeholder="ชื่อภาษา..." />
-    <input type="text" id="langMeaning" placeholder="ความหมาย..." />
-    <input type="text" id="langFunction" placeholder="หน้าที่การทำงาน..." />
-    <button onclick="addLanguage()">เพิ่มข้อมูล</button>
-    <table id="langTable">
-      <thead>
-        <tr>
-          <th>ชื่อภาษา</th>
-          <th>ความหมาย</th>
-          <th>หน้าที่การทำงาน</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
+    <h2 style="text-align:center; margin-bottom:20px;">ความรู้ภาษาโปรแกรม</h2>
+    <div class="lang-grid" id="langGrid">
+      <!-- Card JavaScript -->
+      <div class="lang-card" onclick="toggleDetail(0)">
+        <div class="lang-title">JavaScript</div>
+        <div class="lang-detail" id="detail-0">
+          ภาษา script บนฝั่ง client ทำให้เว็บโต้ตอบได้ เช่น การจัด DOM, event handling
+        </div>
+      </div>
+      <!-- Card Python -->
+      <div class="lang-card" onclick="toggleDetail(1)">
+        <div class="lang-title">Python</div>
+        <div class="lang-detail" id="detail-1">
+          ภาษาโปรแกรมเชิงวัตถุ ใช้งานง่าย นิยมทำ data science, web backend, scripting
+        </div>
+      </div>
+      <!-- Card HTML/CSS -->
+      <div class="lang-card" onclick="toggleDetail(2)">
+        <div class="lang-title">HTML & CSS</div>
+        <div class="lang-detail" id="detail-2">
+          HTML สร้างโครงสร้างเว็บ ส่วน CSS จัดสไตล์ (สี, layout, typography)
+        </div>
+      </div>
+    </div>
   </section>
 
   <section id="contact">
-    <h2>ติดต่อเรา</h2>
-    <form id="contactForm">
-      <input type="text" id="name" placeholder="ชื่อของคุณ" required />
-      <input type="email" id="email" placeholder="อีเมลของคุณ" required />
-      <textarea id="message" placeholder="ข้อความ..." required></textarea>
-      <button type="submit">ส่งข้อความ</button>
-    </form>
-    <p id="formResult"></p>
+    <h2 style="text-align:center;">ติดต่อเรา</h2>
+    <p style="text-align:center;">สำหรับแจ้งปัญหาหรือเสนอแนะ โปรดติดต่อ <a href="mailto:ainthat@example.com" style="color:#000dff;">ainthat@example.com</a></p>
   </section>
 
   <footer>
@@ -98,25 +85,8 @@
   </footer>
 
   <script>
-    // ตัวแปรเก็บบทเรียนและภาษา
-    let lessons = [];
-    let languages = [];
     const header = document.getElementById('mainHeader');
     const dropdown = document.getElementById('dropdownMenu');
-    const cardsContainer = document.getElementById('cardsContainer');
-    const contactForm = document.getElementById('contactForm');
-    const formResult = document.getElementById('formResult');
-    const langTableBody = document.querySelector('#langTable tbody');
-
-    // โหลดข้อมูลจาก localStorage
-    window.addEventListener('load', () => {
-      loadLessons();
-      displayAllLessons();
-      loadLanguages();
-      displayLanguages();
-    });
-
-    // Header hide/show
     let lastScrollTop = 0;
     window.addEventListener('scroll', function() {
       let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
@@ -126,79 +96,10 @@
     function toggleMenu() {
       dropdown.style.display = dropdown.style.display === 'flex' ? 'none' : 'flex';
     }
-
-    // Lesson functions
-    function loadLessons() {
-      const data = localStorage.getItem('lessons');
-      if (data) lessons = JSON.parse(data);
+    function toggleDetail(index) {
+      const detail = document.getElementById(`detail-${index}`);
+      detail.style.display = detail.style.display === 'block' ? 'none' : 'block';
     }
-    function displayAllLessons() {
-      cardsContainer.innerHTML = '';
-      lessons.forEach(title => createCard(title));
-    }
-    function createCard(title) {
-      const card = document.createElement('div');
-      card.className = 'card';
-      card.innerHTML = `<h3>${title}</h3><p>บทเรียนใหม่ที่เพิ่มขึ้นมา</p>`;
-      cardsContainer.appendChild(card);
-      setTimeout(() => {
-        card.style.opacity = '1';
-        card.style.transform = 'translateY(0)';
-      }, 100);
-    }
-    function addLesson() {
-      const title = document.getElementById('lessonInput').value.trim();
-      if (!title) return;
-      lessons.push(title);
-      localStorage.setItem('lessons', JSON.stringify(lessons));
-      createCard(title);
-      document.getElementById('lessonInput').value = '';
-    }
-
-    // Language functions
-    function loadLanguages() {
-      const data = localStorage.getItem('languages');
-      if (data) languages = JSON.parse(data);
-    }
-    function displayLanguages() {
-      langTableBody.innerHTML = '';
-      languages.forEach(lang => addLanguageRow(lang));
-    }
-    function addLanguageRow({ name, meaning, func }) {
-      const row = document.createElement('tr');
-      row.innerHTML = `<td>${name}</td><td>${meaning}</td><td>${func}</td>`;
-      langTableBody.appendChild(row);
-    }
-    function addLanguage() {
-      const name = document.getElementById('langName').value.trim();
-      const meaning = document.getElementById('langMeaning').value.trim();
-      const func = document.getElementById('langFunction').value.trim();
-      if (!name || !meaning || !func) return;
-      const langObj = { name, meaning, func };
-      languages.push(langObj);
-      localStorage.setItem('languages', JSON.stringify(languages));
-      addLanguageRow(langObj);
-      document.getElementById('langName').value = '';
-      document.getElementById('langMeaning').value = '';
-      document.getElementById('langFunction').value = '';
-    }
-
-    // Contact form
-    contactForm.addEventListener('submit', function(e) {
-      e.preventDefault();
-      const name = this.name.value.trim();
-      const email = this.email.value.trim();
-      const message = this.message.value.trim();
-      if (!name || !email || !message) {
-        formResult.style.color = 'red';
-        formResult.innerText = 'กรุณากรอกทุกช่องให้ครบ';
-        return;
-      }
-      console.log({ name, email, message });
-      formResult.style.color = 'green';
-      formResult.innerText = 'ส่งข้อความสำเร็จ!';
-      this.reset();
-    });
   </script>
 </body>
 </html>
