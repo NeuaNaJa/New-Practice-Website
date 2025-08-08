@@ -6,7 +6,7 @@
   <title>เว็บไซต์ทดลองเขียนโค้ด</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
-    body { background: #f4f4f4; line-height: 1.6; }
+    body { background: #f4f4f4; line-height: 1.6; padding-top: 60px; }
     /* Header */
     header { position: fixed; top: 0; left: 0; width: 100%; background: #333; color: #fff; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; z-index: 1000; transition: top 0.3s; }
     .left-menu a { color: #fff; text-decoration: none; margin-right: 15px; }
@@ -14,7 +14,7 @@
     .dropdown-menu { display: none; position: absolute; top: 60px; right: 20px; background: #444; flex-direction: column; padding: 10px; border-radius: 5px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
     .dropdown-menu a { color: #fff; text-decoration: none; padding: 8px 0; }
     /* Hero Section */
-    .hero { height: 60vh; display: flex; justify-content: center; align-items: center; background: linear-gradient(135deg, #6b73ff, #000dff); color: #fff; text-align: center; padding-top: 60px; animation: fadeIn 1s ease; }
+    .hero { height: 60vh; display: flex; justify-content: center; align-items: center; background: linear-gradient(135deg, #6b73ff, #000dff); color: #fff; text-align: center; animation: fadeIn 1s ease; }
     .hero h1 { font-size: 2.5rem; animation: slideDown 1s ease; }
     /* Content Cards */
     .content { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
@@ -27,9 +27,9 @@
     .card h3 { margin-bottom: 10px; color: #000dff; }
     .card p { color: #555; font-size: 0.95rem; }
     /* Interactive Section */
-    .interactive { max-width: 600px; margin: 40px auto; padding: 20px; background: #fff; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-    .interactive input, .interactive button { padding: 10px; font-size: 1rem; margin-right: 10px; }
-    .interactive button { background: #000dff; color: #fff; border: none; border-radius: 5px; cursor: pointer; }
+    .interactive, #contact { max-width: 600px; margin: 40px auto; padding: 20px; background: #fff; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    .interactive input, .interactive button, #contactForm input, #contactForm textarea, #contactForm button { display: block; width: 100%; margin-bottom: 10px; padding: 10px; font-size: 1rem; }
+    .interactive button, #contactForm button { background: #000dff; color: #fff; border: none; border-radius: 5px; cursor: pointer; }
     /* Footer */
     footer { background: #333; color: #fff; text-align: center; padding: 20px; margin-top: 40px; animation: fadeIn 1s ease; }
     /* Animations */
@@ -46,60 +46,113 @@
     <div class="menu-toggle" onclick="toggleMenu()">&#9776;</div>
     <div class="dropdown-menu" id="dropdownMenu">
       <a href="#">หน้าหลัก</a>
-      <a href="#">ติดต่อ</a>
-      <a href="#">แจ้งปัญหา</a>
+      <a href="#contact">ติดต่อ</a>
+      <a href="#contact">แจ้งปัญหา</a>
     </div>
   </header>
+
   <section class="hero">
     <h1>ยินดีต้อนรับเข้าสู่เว็บไซต์ทดลองเขียนโค้ด</h1>
   </section>
+
   <section class="content">
     <h2>บทเรียนเขียนโปรแกรมเบื้องต้น</h2>
-    <div class="cards" id="cardsContainer">
-      <div class="card">
-        <h3>HTML & CSS</h3>
-        <p>เรียนรู้โครงสร้างพื้นฐานของหน้าเว็บ และการจัดแต่งสไตล์ด้วย CSS เพื่อสร้างเว็บที่สวยงาม</p>
-      </div>
-      <div class="card">
-        <h3>JavaScript</h3>
-        <p>เพิ่มการโต้ตอบให้เว็บด้วย JavaScript เช่น การจัดการ event และ DOM manipulation</p>
-      </div>
-      <div class="card">
-        <h3>Python & Flask</h3>
-        <p>สร้างเว็บแอปฝั่งเซิร์ฟเวอร์ด้วย Python และ Flask เพื่อประมวลผลข้อมูลและให้บริการแบบ dynamic</p>
-      </div>
-    </div>
+    <div class="cards" id="cardsContainer"></div>
   </section>
+
   <section class="interactive">
     <h2>เพิ่มบทเรียนใหม่</h2>
     <input type="text" id="lessonInput" placeholder="ชื่อบทเรียนใหม่..." />
     <button onclick="addLesson()">เพิ่ม</button>
   </section>
+
+  <section id="contact">
+    <h2>ติดต่อเรา</h2>
+    <form id="contactForm">
+      <input type="text" id="name" placeholder="ชื่อของคุณ" required />
+      <input type="email" id="email" placeholder="อีเมลของคุณ" required />
+      <textarea id="message" placeholder="ข้อความ..." required></textarea>
+      <button type="submit">ส่งข้อความ</button>
+    </form>
+    <p id="formResult"></p>
+  </section>
+
   <footer>
     อินทัช ดวงกระโทก | Ainthat Duangkrathok
   </footer>
+
   <script>
-    let lastScrollTop = 0;
+    // ตัวแปรและการตั้งค่าเริ่มต้น
+    let lessons = [];
     const header = document.getElementById('mainHeader');
     const dropdown = document.getElementById('dropdownMenu');
     const cardsContainer = document.getElementById('cardsContainer');
+    const contactForm = document.getElementById('contactForm');
+    const formResult = document.getElementById('formResult');
+    
+    // โหลดบทเรียนจาก localStorage เมื่อเว็บโหลด
+    window.addEventListener('load', loadLessons);
+    
+    // ซ่อน/แสดง header ตามการเลื่อน
+    let lastScrollTop = 0;
     window.addEventListener('scroll', function() {
       let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-      if (scrollTop > lastScrollTop) { header.style.top = "-70px"; } else { header.style.top = "0"; }
+      header.style.top = scrollTop > lastScrollTop ? '-70px' : '0';
       lastScrollTop = scrollTop;
     });
-    function toggleMenu() { dropdown.style.display = dropdown.style.display === 'flex' ? 'none' : 'flex'; }
-    function addLesson() {
-      const title = document.getElementById('lessonInput').value.trim();
-      if (!title) return;
+
+    // สลับเมนู
+    function toggleMenu() {
+      dropdown.style.display = dropdown.style.display === 'flex' ? 'none' : 'flex';
+    }
+
+    // โหลดบทเรียนจาก localStorage
+    function loadLessons() {
+      const data = localStorage.getItem('lessons');
+      if (data) {
+        lessons = JSON.parse(data);
+        lessons.forEach(title => createCard(title));
+      }
+    }
+
+    // สร้างการ์ดบทเรียน
+    function createCard(title) {
       const card = document.createElement('div');
       card.className = 'card';
       card.innerHTML = `<h3>${title}</h3><p>บทเรียนใหม่ที่เพิ่มขึ้นมา</p>`;
       cardsContainer.appendChild(card);
-      // Trigger fade-in
-      setTimeout(() => { card.style.opacity = '1'; card.style.transform = 'translateY(0)'; }, 100);
+      setTimeout(() => {
+        card.style.opacity = '1';
+        card.style.transform = 'translateY(0)';
+      }, 100);
+    }
+
+    // เพิ่มบทเรียนใหม่
+    function addLesson() {
+      const title = document.getElementById('lessonInput').value.trim();
+      if (!title) return;
+      lessons.push(title);
+      localStorage.setItem('lessons', JSON.stringify(lessons));
+      createCard(title);
       document.getElementById('lessonInput').value = '';
     }
+
+    // จัดการฟอร์มติดต่อ
+    contactForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const name = this.name.value.trim();
+      const email = this.email.value.trim();
+      const message = this.message.value.trim();
+      if (!name || !email || !message) {
+        formResult.style.color = 'red';
+        formResult.innerText = 'กรุณากรอกทุกช่องให้ครบ';
+        return;
+      }
+      console.log({ name, email, message });
+      formResult.style.color = 'green';
+      formResult.innerText = 'ส่งข้อความสำเร็จ!';
+      this.reset();
+    });
   </script>
 </body>
 </html>
