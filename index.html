@@ -79,7 +79,267 @@
   <section class="language-section">
     <h2>ภาษาโปรแกรมยอดนิยมและข้อมูลสำคัญ</h2>
     <div class="lang-grid" id="langGrid">
-      <!-- language cards (same as before) -->
+      <!-- language cards (full list) -->
+      <div class="lang-card" onclick="toggleDetail(0)">
+        <div class="lang-top"><div class="lang-title">JavaScript</div><div class="lang-meta">Front-end / Full-stack</div></div>
+        <div class="lang-summary">ภาษาสคริปต์ฝั่งผู้ใช้ เพิ่มการโต้ตอบในเว็บ และใช้งานบนเซิร์ฟเวอร์ด้วย Node.js</div>
+        <div class="lang-detail" id="detail-0">
+          <h4>รายละเอียด & หน้าที่</h4>
+          <ol>
+            <li>พื้นฐาน: จัดการ DOM, event handling และการโต้ตอบบนเว็บ</li>
+            <li>สภาพแวดล้อม: เบราว์เซอร์ และ Node.js (server-side)</li>
+            <li>เครื่องมือ: React, Vue, Angular, Express</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="lang-card" onclick="toggleDetail(1)">
+        <div class="lang-top"><div class="lang-title">TypeScript</div><div class="lang-meta">Front-end / Large Projects</div></div>
+        <div class="lang-summary">ซูเปอร์เซ็ตของ JavaScript ที่มี type system ช่วยลดบั๊กในโปรเจกต์ขนาดใหญ่</div>
+        <div class="lang-detail" id="detail-1">
+          <h4>รายละเอียด & หน้าที่</h4>
+          <ol>
+            <li>พื้นฐาน: เพิ่มชนิดข้อมูล (types) ให้ JavaScript</li>
+            <li>สภาพแวดล้อม: Transpile เป็น JavaScript ก่อนรัน</li>
+            <li>เครื่องมือ: Angular, React + TS, NestJS</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="lang-card" onclick="toggleDetail(2)">
+        <div class="lang-top"><div class="lang-title">Python</div><div class="lang-meta">Data / Backend / Scripting</div></div>
+        <div class="lang-summary">ภาษาใช้งานง่าย นิยมใช้ด้าน Data Science, Machine Learning และ Web Backend</div>
+        <div class="lang-detail" id="detail-2">
+          <h4>รายละเอียด & หน้าที่</h4>
+          <ol>
+            <li>พื้นฐาน: โค้ดอ่านง่าย เหมาะกับการเรียนรู้และการทำโปรโตไทป์</li>
+            <li>สภาพแวดล้อม: Server-side, notebooks (Jupyter)</li>
+            <li>เครื่องมือ: NumPy, Pandas, scikit-learn, TensorFlow, Flask, Django</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="lang-card" onclick="toggleDetail(3)">
+        <div class="lang-top"><div class="lang-title">Java</div><div class="lang-meta">Enterprise / Android</div></div>
+        <div class="lang-summary">ภาษาเชิงวัตถุ รันบน JVM เหมาะกับระบบระดับองค์กรและแอป Android</div>
+        <div class="lang-detail" id="detail-3">
+          <h4>รายละเอียด & หน้าที่</h4>
+          <ol>
+            <li>พื้นฐาน: คอมไพล์เป็น bytecode บน JVM</li>
+            <li>สภาพแวดล้อม: Server-side, Android</li>
+            <li>เครื่องมือ: Spring, Hibernate, Android SDK</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="lang-card" onclick="toggleDetail(4)">
+        <div class="lang-top"><div class="lang-title">C</div><div class="lang-meta">Systems / Embedded</div></div>
+        <div class="lang-summary">ภาษาเชิงกระบวนการ ระดับต่ำ ถูกใช้พัฒนาระบบปฏิบัติการและ embedded</div>
+        <div class="lang-detail" id="detail-4">
+          <h4>รายละเอียด & หน้าที่</h4>
+          <ol>
+            <li>พื้นฐาน: ใกล้ฮาร์ดแวร์ ควบคุมหน่วยความจำโดยตรง</li>
+            <li>สภาพแวดล้อม: ระบบฝังตัว, เคอร์เนล, ไลบรารีประสิทธิภาพสูง</li>
+            <li>เครื่องมือ: GCC, Clang</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="lang-card" onclick="toggleDetail(5)">
+        <div class="lang-top"><div class="lang-title">C++</div><div class="lang-meta">Game / Systems</div></div>
+        <div class="lang-summary">ขยายจาก C รองรับ OOP และมีประสิทธิภาพสูง เหมาะสำหรับเกมและซอฟต์แวร์ระบบ</div>
+        <div class="lang-detail" id="detail-5">
+          <h4>รายละเอียด & หน้าที่</h4>
+          <ol>
+            <li>พื้นฐาน: สนับสนุน OOP, template และการจัดการหน่วยความจำแบบละเอียด</li>
+            <li>สภาพแวดล้อม: เกม เอนจิน และแอปที่ต้องการประสิทธิภาพ</li>
+            <li>เครื่องมือ: MSVC, GCC, Clang, Unreal Engine</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="lang-card" onclick="toggleDetail(6)">
+        <div class="lang-top"><div class="lang-title">C#</div><div class="lang-meta">Enterprise / Game</div></div>
+        <div class="lang-summary">ภาษาโดย Microsoft ใช้กับ .NET, เหมาะงาน enterprise และพัฒนาเกมด้วย Unity</div>
+        <div class="lang-detail" id="detail-6">
+          <h4>รายละเอียด & หน้าที่</h4>
+          <ol>
+            <li>พื้นฐาน: ทำงานบน CLR (Common Language Runtime)</li>
+            <li>สภาพแวดล้อม: .NET, Unity</li>
+            <li>เครื่องมือ: .NET Core/Framework, Unity</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="lang-card" onclick="toggleDetail(7)">
+        <div class="lang-top"><div class="lang-title">Go (Golang)</div><div class="lang-meta">Cloud / Systems</div></div>
+        <div class="lang-summary">ภาษาที่ออกแบบโดย Google เน้นความเร็วและความเรียบง่าย เหมาะกับ microservices และ cloud</div>
+        <div class="lang-detail" id="detail-7">
+          <h4>รายละเอียด & หน้าที่</h4>
+          <ol>
+            <li>พื้นฐาน: คอมไพล์เป็นไบนารี ขนาดเล็ก รันเร็ว</li>
+            <li>สภาพแวดล้อม: Backend, CLI, Cloud services</li>
+            <li>เครื่องมือ: Docker, Kubernetes interactions, Gin</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="lang-card" onclick="toggleDetail(8)">
+        <div class="lang-top"><div class="lang-title">Rust</div><div class="lang-meta">Systems / Safe code</div></div>
+        <div class="lang-summary">ภาษาสมัยใหม่เน้นความปลอดภัยหน่วยความจำและประสิทธิภาพ เหมาะกับ systems programming</div>
+        <div class="lang-detail" id="detail-8">
+          <h4>รายละเอียด & หน้าที่</h4>
+          <ol>
+            <li>พื้นฐาน: Ownership model ป้องกัน data races</li>
+            <li>สภาพแวดล้อม: Systems, WebAssembly, embedded</li>
+            <li>เครื่องมือ: Cargo, Tokio, WASM toolchains</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="lang-card" onclick="toggleDetail(9)">
+        <div class="lang-top"><div class="lang-title">PHP</div><div class="lang-meta">Web Backend</div></div>
+        <div class="lang-summary">ภาษา script ฝั่งเซิร์ฟเวอร์ นิยมทำเว็บไดนามิก และ CMS ขนาดใหญ่</div>
+        <div class="lang-detail" id="detail-9">
+          <h4>รายละเอียด & หน้าที่</h4>
+          <ol>
+            <li>พื้นฐาน: ฝังโค้ดใน HTML ประมวลผลที่เซิร์ฟเวอร์</li>
+            <li>สภาพแวดล้อม: Web servers, shared hosting</li>
+            <li>เครื่องมือ: Laravel, WordPress, Composer</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="lang-card" onclick="toggleDetail(10)">
+        <div class="lang-top"><div class="lang-title">Ruby</div><div class="lang-meta">Web / Startup</div></div>
+        <div class="lang-summary">ภาษาเน้นความพึงพอใจของโปรแกรมเมอร์ ใช้งานบ่อยกับ Ruby on Rails</div>
+        <div class="lang-detail" id="detail-10">
+          <h4>รายละเอียด & หน้าที่</h4>
+          <ol>
+            <li>พื้นฐาน: syntax เป็นมิตรกับนักพัฒนา</li>
+            <li>สภาพแวดล้อม: Web apps (Rails)</li>
+            <li>เครื่องมือ: Ruby on Rails, RSpec</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="lang-card" onclick="toggleDetail(11)">
+        <div class="lang-top"><div class="lang-title">Swift</div><div class="lang-meta">iOS / macOS</div></div>
+        <div class="lang-summary">ภาษาสมัยใหม่ของ Apple สำหรับพัฒนา iOS, macOS, และระบบต่าง ๆ</div>
+        <div class="lang-detail" id="detail-11">
+          <h4>รายละเอียด & หน้าที่</h4>
+          <ol>
+            <li>พื้นฐาน: พัฒนาโดย Apple แทน Objective-C</li>
+            <li>สภาพแวดล้อม: iOS, macOS, SwiftUI</li>
+            <li>เครื่องมือ: Xcode, Swift Package Manager</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="lang-card" onclick="toggleDetail(12)">
+        <div class="lang-top"><div class="lang-title">Kotlin</div><div class="lang-meta">Android / Backend</div></div>
+        <div class="lang-summary">ภาษาที่แทน Java บน Android อย่างเป็นทางการ สนับสนุนความปลอดภัยของ null และสไตล์โมเดิร์น</div>
+        <div class="lang-detail" id="detail-12">
+          <h4>รายละเอียด & หน้าที่</h4>
+          <ol>
+            <li>พื้นฐาน: รันบน JVM, interoperable กับ Java</li>
+            <li>สภาพแวดล้อม: Android, Backend (Ktor, Spring)</li>
+            <li>เครื่องมือ: Android Studio, Gradle</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="lang-card" onclick="toggleDetail(13)">
+        <div class="lang-top"><div class="lang-title">Dart</div><div class="lang-meta">Mobile / Web</div></div>
+        <div class="lang-summary">ภาษาของ Google ใช้ร่วมกับ Flutter เพื่อสร้าง UI แบบ cross-platform</div>
+        <div class="lang-detail" id="detail-13">
+          <h4>รายละเอียด & หน้าที่</h4>
+          <ol>
+            <li>พื้นฐาน: เน้น UI มีแบบแผน reactive</li>
+            <li>สภาพแวดลวย: Mobile (Flutter), Web</li>
+            <li>เครื่องมือ: Flutter SDK</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="lang-card" onclick="toggleDetail(14)">
+        <div class="lang-top"><div class="lang-title">SQL</div><div class="lang-meta">Data / Database</div></div>
+        <div class="lang-summary">ภาษาเชิงประกาศสำหรับจัดการฐานข้อมูลเชิงสัมพันธ์</div>
+        <div class="lang-detail" id="detail-14">
+          <h4>รายละเอียด & หน้าที่</h4>
+          <ol>
+            <li>พื้นฐาน: คำสั่ง SELECT/INSERT/UPDATE/DELETE</li>
+            <li>สภาพแวดล้อม: RDBMS เช่น MySQL, PostgreSQL, SQL Server</li>
+            <li>เครื่องมือ: pgAdmin, MySQL Workbench</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="lang-card" onclick="toggleDetail(15)">
+        <div class="lang-top"><div class="lang-title">R</div><div class="lang-meta">Statistics / Data Science</div></div>
+        <div class="lang-summary">ภาษาสำหรับสถิติและวิเคราะห์ข้อมูล นิยมในงานวิจัยและ data analysis</div>
+        <div class="lang-detail" id="detail-15">
+          <h4>รายละเอียด & หน้าที่</h4>
+          <ol>
+            <li>พื้นฐาน: มีฟังก์ชันสถิติและกราฟที่ทรงพลัง</li>
+            <li>สภาพแวดล้อม: RStudio, CRAN packages</li>
+            <li>เครื่องมือ: ggplot2, dplyr</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="lang-card" onclick="toggleDetail(16)">
+        <div class="lang-top"><div class="lang-title">MATLAB</div><div class="lang-meta">Engineering / Numeric</div></div>
+        <div class="lang-summary">สภาพแวดล้อมและภาษาสำหรับคำนวณเชิงตัวเลขและการจำลองทางวิศวกรรม</div>
+        <div class="lang-detail" id="detail-16">
+          <h4>รายละเอียด & หน้าที่</h4>
+          <ol>
+            <li>พื้นฐาน: เน้น matrix operations และ numerical methods</li>
+            <li>สภาพแวดล้อม: MATLAB IDE</li>
+            <li>เครื่องมือ: Simulink, toolboxes</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="lang-card" onclick="toggleDetail(17)">
+        <div class="lang-top"><div class="lang-title">Scala</div><div class="lang-meta">Data / JVM</div></div>
+        <div class="lang-summary">ภาษาที่รวม functional และ OOP ทำงานบน JVM นิยมในระบบ Big Data</div>
+        <div class="lang-detail" id="detail-17">
+          <h4>รายละเอียด & หน้าที่</h4>
+          <ol>
+            <li>พื้นฐาน: functional + OOP, รันบน JVM</li>
+            <li>สภาพแวดล้อม: Big Data (Spark)</li>
+            <li>เครื่องมือ: Apache Spark, Akka</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="lang-card" onclick="toggleDetail(18)">
+        <div class="lang-top"><div class="lang-title">Perl</div><div class="lang-meta">Scripting / Text</div></div>
+        <div class="lang-summary">ภาษา scripting ที่เก่าแก่ เหมาะงาน text-processing และ system scripting</div>
+        <div class="lang-detail" id="detail-18">
+          <h4>รายละเอียด & หน้าที่</h4>
+          <ol>
+            <li>พื้นฐาน: แก้ปัญหา text processing ได้รวดเร็ว</li>
+            <li>สภาพแวดล้อม: Scripting, automation</li>
+            <li>เครื่องมือ: CPAN modules</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="lang-card" onclick="toggleDetail(19)">
+        <div class="lang-top"><div class="lang-title">Shell / Bash</div><div class="lang-meta">Scripting / Ops</div></div>
+        <div class="lang-summary">คอมมานด์สคริปต์สำหรับระบบ Unix/Linux ใช้เขียนสคริปต์ดูแลระบบและ automation</div>
+        <div class="lang-detail" id="detail-19">
+          <h4>รายละเอียด & หน้าที่</h4>
+          <ol>
+            <li>พื้นฐาน: คำสั่ง shell, piping, scripting</li>
+            <li>สภาพแวดล้อม: Linux/Unix shell</li>
+            <li>เครื่องมือ: bash, zsh</li>
+          </ol>
+        </div>
+      </div>
+
     </div>
   </section>
 
