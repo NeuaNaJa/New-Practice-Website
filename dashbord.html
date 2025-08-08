@@ -1,12 +1,49 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="UTF-8">
-  <title>ยืนยันอีเมล</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dashboard - Ainthat Code Lab</title>
+  <style>
+    body{font-family:Inter,system-ui, -apple-system, 'Segoe UI', Roboto, Arial; background:#e6f0ff;margin:0;padding:24px}
+    .card{background:#fff;padding:18px;border-radius:12px;box-shadow:0 8px 20px rgba(2,20,60,0.08);max-width:900px;margin:24px auto}
+    a.btn{display:inline-block;background:#0059b3;color:#fff;padding:8px 12px;border-radius:8px;text-decoration:none}
+  </style>
 </head>
 <body>
-  <h2>กรุณายืนยันอีเมลก่อนเข้าสู่ระบบ</h2>
-  <p>เราได้ส่งลิงก์ยืนยันไปที่อีเมลของคุณแล้ว</p>
-  <p>เมื่อยืนยันเสร็จ โปรด <a href="login.html">เข้าสู่ระบบอีกครั้ง</a></p>
+  <div class="card">
+    <h1>ยินดีต้อนรับสู่ Dashboard</h1>
+    <p>คุณเข้าสู่ระบบเรียบร้อยแล้ว</p>
+    <a class="btn" href="index.html">กลับสู่หน้าหลัก</a>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyB4oU-EwUXOVqrJRvRlZFEpaGxP49QPS0w",
+      authDomain: "ainthatsite.firebaseapp.com",
+      databaseURL: "https://ainthatsite-default-rtdb.firebaseio.com",
+      projectId: "ainthatsite",
+      storageBucket: "ainthatsite.firebasestorage.app",
+      messagingSenderId: "982245018959",
+      appId: "982245018959:web:2400c440a5205d4813c93a",
+      measurementId: "G-K8X2FJLZHJ"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    onAuthStateChanged(auth, user => {
+      if(!user || !user.emailVerified){
+        // not allowed
+        window.location.href = 'verify.html';
+      }
+    });
+
+    // optional: add logout button behavior
+    async function logout(){ await signOut(auth); window.location.href = 'index.html'; }
+  </script>
 </body>
 </html>

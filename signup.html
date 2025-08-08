@@ -1,15 +1,30 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="UTF-8">
-  <title>สมัครสมาชิก</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>สมัครสมาชิก - Ainthat Code Lab</title>
+  <style>
+    body{font-family:Inter,system-ui, -apple-system, 'Segoe UI', Roboto, Arial; background:#e6f0ff; display:flex;align-items:center;justify-content:center;height:100vh;margin:0}
+    .card{background:#fff;padding:28px;border-radius:12px;box-shadow:0 10px 30px rgba(2,20,60,0.12);width:360px}
+    input{width:100%;padding:10px;margin:8px 0;border-radius:8px;border:1px solid #dfefff}
+    button{background:#0059b3;color:#fff;padding:10px;border-radius:8px;border:none;cursor:pointer;width:100%}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>สมัครสมาชิก</h2>
+    <form id="signupForm">
+      <input id="email" type="email" placeholder="อีเมล" required />
+      <input id="password" type="password" placeholder="รหัสผ่าน" required />
+      <button type="submit">สมัครสมาชิก</button>
+    </form>
+    <p style="margin-top:12px">มีบัญชีแล้ว? <a href="login.html">เข้าสู่ระบบ</a></p>
+  </div>
+
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
-    import { 
-      getAuth, 
-      createUserWithEmailAndPassword, 
-      sendEmailVerification 
-    } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword, sendEmailVerification } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyB4oU-EwUXOVqrJRvRlZFEpaGxP49QPS0w",
@@ -18,39 +33,24 @@
       projectId: "ainthatsite",
       storageBucket: "ainthatsite.firebasestorage.app",
       messagingSenderId: "982245018959",
-      appId: "1:982245018959:web:2400c440a5205d4813c93a",
+      appId: "982245018959:web:2400c440a5205d4813c93a",
       measurementId: "G-K8X2FJLZHJ"
     };
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
-    document.getElementById("signupForm").addEventListener("submit", (e) => {
+    document.getElementById('signupForm').addEventListener('submit', async (e) => {
       e.preventDefault();
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-
-      createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-          const user = userCredential.user;
-          sendEmailVerification(user)
-            .then(() => {
-              alert("สมัครสมาชิกสำเร็จ! กรุณาตรวจสอบอีเมลเพื่อยืนยันก่อนเข้าสู่ระบบ");
-              window.location.href = "verify.html";
-            });
-        })
-        .catch((error) => {
-          alert("สมัครไม่สำเร็จ: " + error.message);
-        });
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      try{
+        const cred = await createUserWithEmailAndPassword(auth, email, password);
+        await sendEmailVerification(cred.user);
+        alert('สมัครสำเร็จ! กรุณาตรวจสอบอีเมลเพื่อยืนยันก่อนล็อกอิน');
+        window.location.href = 'verify.html';
+      }catch(err){ alert('สมัครไม่สำเร็จ: '+err.message); }
     });
   </script>
-</head>
-<body>
-  <h2>สมัครสมาชิก</h2>
-  <form id="signupForm">
-    <input type="email" id="email" placeholder="อีเมล" required><br>
-    <input type="password" id="password" placeholder="รหัสผ่าน" required><br>
-    <button type="submit">สมัครสมาชิก</button>
-  </form>
 </body>
 </html>

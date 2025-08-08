@@ -588,3 +588,248 @@
 </script>
 </body>
 </html>
+
+
+<!--
+  Below are separate page files you can add to your project folder as individual HTML files.
+  Copy each section into its own file (signup.html, login.html, dashboard.html).
+-->
+
+
+<!-- signup.html -->
+
+<!------------------------------------------------------------------>
+<!-- Copy the following into a new file named: signup.html          -->
+<!------------------------------------------------------------------>
+
+<!--
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>สมัครสมาชิก - Ainthat Code Lab</title>
+  <style>
+    body{font-family:Inter,system-ui, -apple-system, 'Segoe UI', Roboto, Arial; background:#e6f0ff; display:flex;align-items:center;justify-content:center;height:100vh;margin:0}
+    .card{background:#fff;padding:28px;border-radius:12px;box-shadow:0 10px 30px rgba(2,20,60,0.12);width:360px}
+    input{width:100%;padding:10px;margin:8px 0;border-radius:8px;border:1px solid #dfefff}
+    button{background:#0059b3;color:#fff;padding:10px;border-radius:8px;border:none;cursor:pointer;width:100%}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>สมัครสมาชิก</h2>
+    <form id="signupForm">
+      <input id="email" type="email" placeholder="อีเมล" required />
+      <input id="password" type="password" placeholder="รหัสผ่าน" required />
+      <button type="submit">สมัครสมาชิก</button>
+    </form>
+    <p style="margin-top:12px">มีบัญชีแล้ว? <a href="login.html">เข้าสู่ระบบ</a></p>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword, sendEmailVerification } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyB4oU-EwUXOVqrJRvRlZFEpaGxP49QPS0w",
+      authDomain: "ainthatsite.firebaseapp.com",
+      databaseURL: "https://ainthatsite-default-rtdb.firebaseio.com",
+      projectId: "ainthatsite",
+      storageBucket: "ainthatsite.firebasestorage.app",
+      messagingSenderId: "982245018959",
+      appId: "982245018959:web:2400c440a5205d4813c93a",
+      measurementId: "G-K8X2FJLZHJ"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    document.getElementById('signupForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      try{
+        const cred = await createUserWithEmailAndPassword(auth, email, password);
+        await sendEmailVerification(cred.user);
+        alert('สมัครสำเร็จ! กรุณาตรวจสอบอีเมลเพื่อยืนยันก่อนล็อกอิน');
+        window.location.href = 'verify.html';
+      }catch(err){ alert('สมัครไม่สำเร็จ: '+err.message); }
+    });
+  </script>
+</body>
+</html>
+-->
+
+
+<!-- login.html -->
+
+<!------------------------------------------------------------------>
+<!-- Copy the following into a new file named: login.html           -->
+<!------------------------------------------------------------------>
+
+<!--
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>เข้าสู่ระบบ - Ainthat Code Lab</title>
+  <style>
+    body{font-family:Inter,system-ui, -apple-system, 'Segoe UI', Roboto, Arial; background:#e6f0ff; display:flex;align-items:center;justify-content:center;height:100vh;margin:0}
+    .card{background:#fff;padding:28px;border-radius:12px;box-shadow:0 10px 30px rgba(2,20,60,0.12);width:360px}
+    input{width:100%;padding:10px;margin:8px 0;border-radius:8px;border:1px solid #dfefff}
+    button{background:#0059b3;color:#fff;padding:10px;border-radius:8px;border:none;cursor:pointer;width:100%}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>เข้าสู่ระบบ</h2>
+    <form id="loginForm">
+      <input id="email" type="email" placeholder="อีเมล" required />
+      <input id="password" type="password" placeholder="รหัสผ่าน" required />
+      <button type="submit">เข้าสู่ระบบ</button>
+    </form>
+    <p style="margin-top:12px">ยังไม่มีบัญชี? <a href="signup.html">สมัครสมาชิก</a></p>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyB4oU-EwUXOVqrJRvRlZFEpaGxP49QPS0w",
+      authDomain: "ainthatsite.firebaseapp.com",
+      databaseURL: "https://ainthatsite-default-rtdb.firebaseio.com",
+      projectId: "ainthatsite",
+      storageBucket: "ainthatsite.firebasestorage.app",
+      messagingSenderId: "982245018959",
+      appId: "982245018959:web:2400c440a5205d4813c93a",
+      measurementId: "G-K8X2FJLZHJ"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      try{
+        const cred = await signInWithEmailAndPassword(auth, email, password);
+        if(!cred.user.emailVerified){
+          alert('กรุณายืนยันอีเมลก่อนเข้าสู่ระบบ');
+          await auth.signOut();
+          window.location.href = 'verify.html';
+          return;
+        }
+        window.location.href = 'dashboard.html';
+      }catch(err){ alert('เข้าสู่ระบบล้มเหลว: '+err.message); }
+    });
+  </script>
+</body>
+</html>
+-->
+
+
+<!-- dashboard.html -->
+
+<!------------------------------------------------------------------>
+<!-- Copy the following into a new file named: dashboard.html       -->
+<!------------------------------------------------------------------>
+
+<!--
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dashboard - Ainthat Code Lab</title>
+  <style>
+    body{font-family:Inter,system-ui, -apple-system, 'Segoe UI', Roboto, Arial; background:#e6f0ff;margin:0;padding:24px}
+    .card{background:#fff;padding:18px;border-radius:12px;box-shadow:0 8px 20px rgba(2,20,60,0.08);max-width:900px;margin:24px auto}
+    a.btn{display:inline-block;background:#0059b3;color:#fff;padding:8px 12px;border-radius:8px;text-decoration:none}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>ยินดีต้อนรับสู่ Dashboard</h1>
+    <p>คุณเข้าสู่ระบบเรียบร้อยแล้ว</p>
+    <a class="btn" href="index.html">กลับสู่หน้าหลัก</a>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyB4oU-EwUXOVqrJRvRlZFEpaGxP49QPS0w",
+      authDomain: "ainthatsite.firebaseapp.com",
+      databaseURL: "https://ainthatsite-default-rtdb.firebaseio.com",
+      projectId: "ainthatsite",
+      storageBucket: "ainthatsite.firebasestorage.app",
+      messagingSenderId: "982245018959",
+      appId: "982245018959:web:2400c440a5205d4813c93a",
+      measurementId: "G-K8X2FJLZHJ"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    onAuthStateChanged(auth, user => {
+      if(!user || !user.emailVerified){
+        // not allowed
+        window.location.href = 'verify.html';
+      }
+    });
+
+    // optional: add logout button behavior
+    async function logout(){ await signOut(auth); window.location.href = 'index.html'; }
+  </script>
+</body>
+</html>
+-->
+
+
+<!-- verify.html -->
+
+<!------------------------------------------------------------------>
+<!-- Copy the following into a new file named: verify.html          -->
+<!------------------------------------------------------------------>
+
+<!--
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ยืนยันอีเมล - Ainthat Code Lab</title>
+  <style>
+    body{font-family:Inter,system-ui, -apple-system, 'Segoe UI', Roboto, Arial; background:#0059b3;color:white;display:flex;align-items:center;justify-content:center;height:100vh;margin:0}
+    .card{background:rgba(255,255,255,0.06);padding:28px;border-radius:12px;text-align:center}
+    a{color:yellow}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>กรุณายืนยันอีเมลของคุณ</h2>
+    <p>เราได้ส่งลิงก์ยืนยันไปยังอีเมลของคุณแล้ว — กรุณาเปิดอีเมลและคลิกลิงก์</p>
+    <p>เมื่อยืนยันแล้ว ให้กลับมาที่หน้า <a href="login.html">เข้าสู่ระบบ</a></p>
+  </div>
+</body>
+</html>
+-->
+
+
+<!-- Quick instructions -->
+<!-- 1) Copy each commented block into its own file (signup.html, login.html, dashboard.html, verify.html) -->
+<!-- 2) Add those files to your git repo, commit and push. Example commands: -->
+<!--    git add signup.html login.html dashboard.html verify.html -->
+<!--    git commit -m "Add auth pages" -->
+<!--    git push origin main -->
+<!-- 3) Make sure Firebase Authentication Email/Password is enabled in Console and Firestore rules are published. -->
+
+<!-- If you want, I can now: -->
+<!-- - generate the exact git commands for you to run (one step at a time) -->
+<!-- - or modify any of the page designs / wording before you copy them -->
+-->
