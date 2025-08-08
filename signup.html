@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>สมัครสมาชิก</title>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+    import { 
+      getAuth, 
+      createUserWithEmailAndPassword, 
+      sendEmailVerification 
+    } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyB4oU-EwUXOVqrJRvRlZFEpaGxP49QPS0w",
+      authDomain: "ainthatsite.firebaseapp.com",
+      databaseURL: "https://ainthatsite-default-rtdb.firebaseio.com",
+      projectId: "ainthatsite",
+      storageBucket: "ainthatsite.firebasestorage.app",
+      messagingSenderId: "982245018959",
+      appId: "1:982245018959:web:2400c440a5205d4813c93a",
+      measurementId: "G-K8X2FJLZHJ"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    document.getElementById("signupForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          const user = userCredential.user;
+          sendEmailVerification(user)
+            .then(() => {
+              alert("สมัครสมาชิกสำเร็จ! กรุณาตรวจสอบอีเมลเพื่อยืนยันก่อนเข้าสู่ระบบ");
+              window.location.href = "verify.html";
+            });
+        })
+        .catch((error) => {
+          alert("สมัครไม่สำเร็จ: " + error.message);
+        });
+    });
+  </script>
+</head>
+<body>
+  <h2>สมัครสมาชิก</h2>
+  <form id="signupForm">
+    <input type="email" id="email" placeholder="อีเมล" required><br>
+    <input type="password" id="password" placeholder="รหัสผ่าน" required><br>
+    <button type="submit">สมัครสมาชิก</button>
+  </form>
+</body>
+</html>
